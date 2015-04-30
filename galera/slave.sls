@@ -67,8 +67,9 @@ galera_bootstrap_init_config:
     - service: galera_bootstrap_stop_service
 
 galera_bootstrap_start_service_final:
-  service.running:
-  - name: {{ slave.service }}
+  cmd.script:
+  - name: slave_bootstrap
+  - source: salt://galera/files/slave_bootstrap.sh
   - require: 
     - file: galera_bootstrap_init_config
 
@@ -76,7 +77,7 @@ galera_bootstrap_finish_flag:
   file.touch:
   - name: /root/.galera_bootstrap
   - require:
-    - service: galera_bootstrap_start_service_final
+    - cmd: galera_bootstrap_start_service_final
   - watch_in:
     - file: galera_config
 
