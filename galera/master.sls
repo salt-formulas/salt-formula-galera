@@ -26,6 +26,14 @@ galera_log_dir:
   - require:
     - pkg: galera_packages
 
+galera_init_script:
+  file.managed:
+  - name: /etc/init.d/mysql
+  - source: salt://galera/files/mysql
+  - mode: 755
+  - require: 
+    - pkg: galera_packages
+
 {%- if not salt['cmd.run']('test -e /root/.galera_bootstrap') %}
 
 galera_bootstrap_temp_config:
@@ -36,6 +44,7 @@ galera_bootstrap_temp_config:
   - template: jinja
   - require: 
     - pkg: galera_packages
+    - file: galera_init_script
 
 galera_bootstrap_start_service:
   service.running:
