@@ -31,7 +31,7 @@ galera_log_dir:
 galera_bootstrap_temp_config:
   file.managed:
   - name: {{ master.config }}
-  - source: salt://mysql/files/my.cnf.bootstrap
+  - source: salt://galera/files/my.cnf.bootstrap
   - mode: 644
   - template: jinja
   - require: 
@@ -64,7 +64,7 @@ galera_packages_bootstrap_stop_service:
 galera_bootstrap_init_config:
   file.managed:
   - name: {{ master.config }}
-  - source: salt://mysql/conf/my.cnf
+  - source: salt://galera/files/my.cnf
   - mode: 644
   - template: jinja
   - require: 
