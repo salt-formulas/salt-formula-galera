@@ -70,7 +70,7 @@ galera_bootstrap_init_config:
   - require: 
     - service: galera_bootstrap_stop_service
 
-galera_bootstrap_temp_config:
+galera_bootstrap_finish_flag:
   file.touch:
   - require:
     - file: galera_bootstrap_init_config
