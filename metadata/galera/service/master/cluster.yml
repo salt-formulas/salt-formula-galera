@@ -1,0 +1,19 @@
+applications:
+- galera
+parameters:
+  _param:
+    galera_server_cluster_name: galeracluster
+    galera_server_bind_address: 0.0.0.0
+    galera_server_bind_port: 0.0.0.0
+    galera_server_admin_user: root
+    galera_server_admin_password: root
+  galera:
+    master:
+      enabled: true
+      name: ${_param:galera_server_cluster_name}
+      bind:
+        address: ${_param:galera_server_bind_address}
+        port: ${_param:galera_server_bind_port}
+      admin:
+        user: ${_param:galera_server_admin_user}
+        password: ${_param:galera_server_admin_password}

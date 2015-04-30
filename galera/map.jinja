@@ -1,0 +1,24 @@
+
+{%- set master = salt['grains.filter_by']({
+  'Debian': {
+    'pkgs': ['mysql-server-wsrep', 'galera', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup-21', 'socat'],
+    'service': 'mysql',
+    'config': '/etc/mysql/conf.d/wsrep.cnf',
+  },
+  'RedHat': {
+    'pkgs': ['MySQL-server', 'galera', 'MySQL-client', 'MySQL-python', 'rsync'],
+    'service': 'mysql',
+  },
+}, merge=salt['pillar.get']('galera:master')) %}
+
+{%- set slave = salt['grains.filter_by']({
+  'Debian': {
+    'pkgs': ['mysql-server-wsrep', 'galera', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup-21', 'socat'],
+    'service': 'mysql',
+    'config': '/etc/mysql/conf.d/wsrep.cnf',
+  },
+  'RedHat': {
+    'pkgs': ['MySQL-server', 'galera', 'MySQL-client', 'MySQL-python', 'rsync'],
+    'service': 'mysql',
+  },
+}, merge=salt['pillar.get']('galera:slave')) %}
