@@ -55,29 +55,44 @@ mysql_bootstrap_update_maint_password:
   - require:
     - cmd: galera_bootstrap_set_root_password
 
-galera_packages_bootstrap_stop_service:
+galera_bootstrap_stop_service:
   service.dead:
-  - name: mysql
+  - name: {{ master.service }}
   - require:
     - cmd: mysql_bootstrap_update_maint_password
 
 galera_bootstrap_init_config:
   file.managed:
   - name: {{ master.config }}
-  - source: salt://galera/files/my.cnf
+  - source: salt://galera/files/my.cnf.init
   - mode: 644
   - template: jinja
   - require: 
     - service: galera_bootstrap_stop_service
 
+galera_bootstrap_start_service_final:
+  service.running:
+  - name: {{ master.service }}
+  - require: 
+    - file: galera_bootstrap_init_config
+
 galera_bootstrap_finish_flag:
   file.touch:
   - require:
-    - file: galera_bootstrap_init_config
+    - service: galera_bootstrap_start_service_final
   - watch_in:
-    - service: galera_service
+    - file: galera_config
 
 {%- endif %}
+
+galera_config:
+  file.managed:
+  - name: {{ master.config }}
+  - source: salt://galera/files/my.cnf
+  - mode: 644
+  - template: jinja
+  - require_in: 
+    - service: galera_service
 
 galera_service:
   service.running:
