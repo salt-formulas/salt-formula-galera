@@ -6,6 +6,13 @@ parameters:
     galera_server_bind_address: ${_param:cluster_local_address}
     galera_server_bind_port: 3306
     galera_server_admin_user: root
+  linux:
+    system:
+      repo:
+        trusty:
+          enabled: true
+          source: 'deb http://10.0.110.14 trusty main'
+          key_url: 'http://10.0.110.14/public.gpg'
   galera:
     master:
       enabled: true
