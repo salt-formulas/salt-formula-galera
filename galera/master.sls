@@ -21,7 +21,7 @@ galera_init_script:
   - require: 
     - pkg: galera_packages
 
-{%- if not salt['cmd.run']('test -e /root/.galera_bootstrap') %}
+{%- if salt['cmd.run']('test -e /root/.galera_bootstrap; echo $?') != '0'  %}
 
 galera_bootstrap_temp_config:
   file.managed:

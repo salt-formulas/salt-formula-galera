@@ -7,4 +7,12 @@ include:
 {%- if pillar.galera.slave is defined %}
 - galera.slave
 {%- endif %}
+{%- if pillar.galera.monitor is defined %}
+- galera.monitor
+{%- endif %}
+{%- endif %}
+{%- if pillar.mysql is defined %}
+{%- if pillar.mysql.server is defined %}
+- galera.server
+{%- endif %}
 {%- endif %}
