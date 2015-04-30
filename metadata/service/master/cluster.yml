@@ -13,6 +13,7 @@ parameters:
       bind:
         address: ${_param:galera_server_bind_address}
         port: ${_param:galera_server_bind_port}
+      maintenance_password: ${_param:galera_server_maintenance_password}
       admin:
         user: ${_param:galera_server_admin_user}
         password: ${_param:galera_server_admin_password}
