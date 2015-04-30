@@ -1,19 +1,6 @@
 {%- from "galera/map.jinja" import master with context %}
 {%- if master.enabled %}
 
-{%- if grains.os_family == "Debian2" %}
-
-galera_debconf:
-  debconf.set:
-  - name: mariadb-galera-server
-  - data:
-      'mysql-server/root_password': {'type':'string','value':'{{ server.admin.password }}'}
-      'mysql-server/root_password_again': {'type':'string','value':'{{ server.admin.password }}'}
-  - require_in:
-    - pkg: galera_packages
-
-{%- endif %}
-
 galera_packages:
   pkg.installed:
   - names: {{ master.pkgs }}
@@ -87,6 +74,7 @@ galera_bootstrap_start_service_final:
 
 galera_bootstrap_finish_flag:
   file.touch:
+  - name: /root/.galera_bootstrap
   - require:
     - service: galera_bootstrap_start_service_final
   - watch_in:
