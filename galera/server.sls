@@ -7,12 +7,6 @@
 mysql_database_{{ database_name }}:
   mysql_database.present:
   - name: {{ database_name }}
-  - require:
-    {% if cluster.enabled %}
-    - cmd: mysql_cluster_init
-    {% else %}
-    - service: mysql_service
-    {% endif %}
 
 {%- for user in database.users %}
 
@@ -21,12 +15,6 @@ mysql_user_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   - host: '{{ user.host }}'
   - name: '{{ user.name }}'
   - password: {{ user.password }}
-  - require:
-    {% if cluster.enabled %}
-    - cmd: mysql_cluster_init
-    {% else %}
-    - service: mysql_service
-    {% endif %}
 
 mysql_grants_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   mysql_grants.present:
