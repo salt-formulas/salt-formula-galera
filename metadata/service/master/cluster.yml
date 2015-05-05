@@ -24,3 +24,12 @@ parameters:
         port: 4567
       - host: ${_param:cluster_node03_address}
         port: 4567
+  mysql:
+    server:
+      users:
+      - name: haproxy
+        host: localhost
+      - name: haproxy
+        host: '%'
+      - name: haproxy
+        host: ${_param:cluster_local_address}
