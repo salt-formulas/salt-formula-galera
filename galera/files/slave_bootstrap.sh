@@ -2,7 +2,7 @@
 
 service mysql start
 
-counter=20
+counter=40
 
 while [ $counter -gt 0 ]
 do
