@@ -75,6 +75,7 @@ galera_bootstrap_start_service:
   - template: jinja
   - require: 
     - file: galera_bootstrap_temp_config
+    - file: galera_run_dir
 
 galera_bootstrap_set_root_password:
   cmd.run:
@@ -106,12 +107,8 @@ galera_bootstrap_init_config:
 galera_bootstrap_start_service_final:
   cmd.script:
   - name: slave_bootstrap
-<<<<<<< HEAD
-  - source: salt://galera/files/slave_bootstrap.sh
-  - template: jinja
-=======
   - source: salt://galera/files/bootstrap.sh
->>>>>>> 5f0d683... galera bootstrap improvements
+  - template: jinja
   - require: 
     - file: galera_bootstrap_init_config
 

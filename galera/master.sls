@@ -75,6 +75,7 @@ galera_bootstrap_start_service:
   - template: jinja
   - require: 
     - file: galera_bootstrap_temp_config
+    - file: galera_run_dir
 
 galera_bootstrap_set_root_password:
   cmd.run:
