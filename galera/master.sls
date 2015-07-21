@@ -34,6 +34,20 @@ galera_log_dir:
   - require:
     - pkg: galera_packages
 
+{%- if grains.os_family == 'Debian' %}
+galera_run_dir:
+  file.directory:
+  - name: /var/run/mysqld
+  - makedirs: true
+  - mode: 755
+  - user: mysql
+  - group: root
+  - require:
+    - pkg: galera_packages
+  - require_in:
+    - service: galera_bootstrap_start_service
+{%- endif %}
+
 galera_init_script:
   file.managed:
   - name: /etc/init.d/mysql
