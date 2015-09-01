@@ -56,7 +56,7 @@ galera_init_script:
   - require: 
     - pkg: galera_packages
 
-{%- if salt['cmd.run']('test -e /root/.galera_bootstrap; echo $?') != '0'  %}
+{%- if salt['cmd.run']('test -e /var/lib/mysql/.galera_bootstrap; echo $?') != '0'  %}
 
 galera_bootstrap_temp_config:
   file.managed:
@@ -69,8 +69,10 @@ galera_bootstrap_temp_config:
     - file: galera_init_script
 
 galera_bootstrap_start_service:
-  service.running:
-  - name: {{ slave.service }}
+  cmd.script:
+  - name: slave_initial_bootstrap
+  - source: salt://galera/files/bootstrap.sh
+  - template: jinja
   - require: 
     - file: galera_bootstrap_temp_config
 
@@ -78,7 +80,7 @@ galera_bootstrap_set_root_password:
   cmd.run:
   - name: mysqladmin password "{{ slave.admin.password }}"
   - require:
-    - service: galera_bootstrap_start_service
+    - cmd: galera_bootstrap_start_service
 
 mysql_bootstrap_update_maint_password:
   cmd.run:
@@ -104,14 +106,18 @@ galera_bootstrap_init_config:
 galera_bootstrap_start_service_final:
   cmd.script:
   - name: slave_bootstrap
+<<<<<<< HEAD
   - source: salt://galera/files/slave_bootstrap.sh
   - template: jinja
+=======
+  - source: salt://galera/files/bootstrap.sh
+>>>>>>> 5f0d683... galera bootstrap improvements
   - require: 
     - file: galera_bootstrap_init_config
 
 galera_bootstrap_finish_flag:
   file.touch:
-  - name: /root/.galera_bootstrap
+  - name: /var/lib/mysql/.galera_bootstrap
   - require:
     - cmd: galera_bootstrap_start_service_final
   - watch_in:

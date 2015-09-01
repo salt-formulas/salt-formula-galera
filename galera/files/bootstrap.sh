@@ -3,7 +3,7 @@
 
 service {{ slave.service }} start
 
-counter=40
+counter=70
 
 while [ $counter -gt 0 ]
 do
