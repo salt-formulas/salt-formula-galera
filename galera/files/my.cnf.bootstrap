@@ -70,7 +70,7 @@ max_allowed_packet = 512M
 skip_name_resolve
 memlock=0
 sysdate_is_now=1
-max_connections=2000
+max_connections={{ service.get('max_connections', 20000) }}
 thread_cache_size=512
 query_cache_type = 0
 query_cache_size = 0
