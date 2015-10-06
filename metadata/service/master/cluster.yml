@@ -1,0 +1,35 @@
+applications:
+- galera
+parameters:
+  _param:
+    galera_server_cluster_name: galeracluster
+    galera_server_bind_address: ${_param:cluster_local_address}
+    galera_server_bind_port: 3306
+    galera_server_admin_user: root
+  galera:
+    master:
+      enabled: true
+      name: ${_param:galera_server_cluster_name}
+      bind:
+        address: ${_param:galera_server_bind_address}
+        port: ${_param:galera_server_bind_port}
+      maintenance_password: ${_param:galera_server_maintenance_password}
+      admin:
+        user: ${_param:galera_server_admin_user}
+        password: ${_param:galera_server_admin_password}
+      members:
+      - host: ${_param:cluster_node01_address}
+        port: 4567
+      - host: ${_param:cluster_node02_address}
+        port: 4567
+      - host: ${_param:cluster_node03_address}
+        port: 4567
+  mysql:
+    server:
+      users:
+      - name: haproxy
+        host: localhost
+      - name: haproxy
+        host: '%'
+      - name: haproxy
+        host: ${_param:cluster_local_address}
