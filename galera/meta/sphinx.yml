@@ -1,0 +1,24 @@
+doc:
+  name: Galera
+  description: Galera Cluster for MySQL is a true Multimaster Cluster based on synchronous replication.
+  role:
+  {%- if pillar.galera.master is defined %}
+    master:
+      name: master
+      param: {}
+  {%- endif %}
+  {%- if pillar.galera.slave is defined %}
+    slave:
+      name: slave
+      param: {}
+  {%- endif %}
+  {%- if pillar.galera.monitor is defined %}
+    monitor:
+      name: monitor
+      param: {}
+  {%- endif %}
+  {%- if pillar.galera.mysql is defined %}
+    mysql:
+      name: mysql
+      param: {}
+  {%- endif %}
