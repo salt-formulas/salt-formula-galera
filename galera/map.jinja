@@ -10,7 +10,7 @@
     'pkgs': ['mariadb-galera-cluster', 'mariadb', 'MySQL-python', 'rsync'],
     'service': 'mysqld',
     'log_file': '/var/log/mariadb/mariadb.log',
-    'config': '/etc/mysql/my.cnf',
+    'config': '/etc/my.cnf',
   },
 }, merge=salt['pillar.get']('galera:master')) %}
 
@@ -25,6 +25,6 @@
     'pkgs': ['mariadb-galera-cluster', 'mariadb', 'MySQL-python', 'rsync'],
     'service': 'mysqld',
     'log_file': '/var/log/mariadb/mariadb.log',
-    'config': '/etc/mysql/my.cnf',
+    'config': '/etc/my.cnf',
   },
 }, merge=salt['pillar.get']('galera:slave')) %}
