@@ -3,12 +3,14 @@
   'Debian': {
     'pkgs': ['mysql-server-wsrep', 'galera', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup-21', 'socat'],
     'service': 'mysql',
+    'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
     'log_file': '/var/log/mysql.log',
     'config': '/etc/mysql/my.cnf',
   },
   'RedHat': {
-    'pkgs': ['mariadb-galera-server', 'mariadb', 'MySQL-python', 'rsync'],
+    'pkgs': ['galera', 'mariadb-galera-server', 'mariadb', 'MySQL-python', 'rsync'],
     'service': 'mysqld',
+    'wsrep_provider': '/usr/lib64/galera/libgalera_smm.so',
     'log_file': '/var/log/mariadb/mariadb.log',
     'config': '/etc/my.cnf',
   },
@@ -18,12 +20,14 @@
   'Debian': {
     'pkgs': ['mysql-server-wsrep', 'galera', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup-21', 'socat'],
     'service': 'mysql',
+    'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
     'log_file': '/var/log/mysql.log',
     'config': '/etc/mysql/my.cnf',
   },
   'RedHat': {
-    'pkgs': ['mariadb-galera-server', 'mariadb', 'MySQL-python', 'rsync'],
+    'pkgs': ['galera', 'mariadb-galera-server', 'mariadb', 'MySQL-python', 'rsync'],
     'service': 'mysqld',
+    'wsrep_provider': '/usr/lib64/galera/libgalera_smm.so',
     'log_file': '/var/log/mariadb/mariadb.log',
     'config': '/etc/my.cnf',
   },
