@@ -13,7 +13,7 @@
 user=mysql
 basedir=/usr/
 datadir=/var/lib/mysql
-socket=/var/run/mysqld/mysqld.sock
+socket={{ service.socket }}
 pid_file=mysqld.pid
 port=3306
 log_error={{ service.log_file }}
@@ -172,14 +172,14 @@ wsrep_sst_auth={{ service.admin.user }}:{{ service.admin.password }}
 # Protocol version to use
 # wsrep_protocol_version=
 [MYSQL]
-socket=/var/run/mysqld/mysqld.sock
+socket={{ service.socket }}
 #default_character_set=utf8
 [client]
-socket=/var/run/mysqld/mysqld.sock
+socket={{ service.socket }}
 default_character_set=utf8
 [mysqldump]
 max_allowed_packet = 512M
-socket=/var/run/mysqld/mysqld.sock
+socket={{ service.socket }}
 default_character_set=utf8
 [MYSQLD_SAFE]
 pid_file=mysqld.pid

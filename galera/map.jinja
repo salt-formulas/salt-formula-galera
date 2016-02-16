@@ -5,13 +5,15 @@
     'service': 'mysql',
     'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
     'log_file': '/var/log/mysql.log',
+    'socket': '/var/run/mysqld/mysqld.sock',
     'config': '/etc/mysql/my.cnf',
   },
   'RedHat': {
-    'pkgs': ['galera', 'mariadb-galera-server', 'mariadb', 'MySQL-python', 'rsync'],
+    'pkgs': ['galera', 'mariadb-server', 'mariadb', 'MySQL-python', 'rsync'],
     'service': 'mysqld',
     'wsrep_provider': '/usr/lib64/galera/libgalera_smm.so',
     'log_file': '/var/log/mariadb/mariadb.log',
+    'socket': '/var/run/mariadb/mysqld.sock',
     'config': '/etc/my.cnf',
   },
 }, merge=salt['pillar.get']('galera:master')) %}
@@ -22,13 +24,15 @@
     'service': 'mysql',
     'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
     'log_file': '/var/log/mysql.log',
+    'socket': '/var/run/mysqld/mysqld.sock',
     'config': '/etc/mysql/my.cnf',
   },
   'RedHat': {
-    'pkgs': ['galera', 'mariadb-galera-server', 'mariadb', 'MySQL-python', 'rsync'],
+    'pkgs': ['galera', 'mariadb-server', 'mariadb', 'MySQL-python', 'rsync'],
     'service': 'mysqld',
     'wsrep_provider': '/usr/lib64/galera/libgalera_smm.so',
     'log_file': '/var/log/mariadb/mariadb.log',
+    'socket': '/var/run/mariadb/mysqld.sock',
     'config': '/etc/my.cnf',
   },
 }, merge=salt['pillar.get']('galera:slave')) %}
