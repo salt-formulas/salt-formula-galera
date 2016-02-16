@@ -8,6 +8,7 @@
   'RedHat': {
     'pkgs': ['MySQL-server', 'galera', 'MySQL-client', 'MySQL-python', 'rsync'],
     'service': 'mysql',
+    'config': '/etc/mysql/my.cnf',
   },
 }, merge=salt['pillar.get']('galera:master')) %}
 
@@ -20,5 +21,6 @@
   'RedHat': {
     'pkgs': ['MySQL-server', 'galera', 'MySQL-client', 'MySQL-python', 'rsync'],
     'service': 'mysql',
+    'config': '/etc/mysql/my.cnf',
   },
 }, merge=salt['pillar.get']('galera:slave')) %}
