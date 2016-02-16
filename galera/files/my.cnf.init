@@ -16,7 +16,7 @@ datadir=/var/lib/mysql
 socket=/var/run/mysqld/mysqld.sock
 pid_file=mysqld.pid
 port=3306
-log_error=/var/log/mysql.log
+log_error={{ service.log_file }}
 log_warnings=2
 #log_output=FILE
 ### INNODB OPTIONS 
@@ -183,6 +183,6 @@ socket=/var/run/mysqld/mysqld.sock
 default_character_set=utf8
 [MYSQLD_SAFE]
 pid_file=mysqld.pid
-log_error=/var/log/mysql.log
+log_error={{ service.log_file }}
 basedir=/usr/
 datadir=/var/lib/mysql

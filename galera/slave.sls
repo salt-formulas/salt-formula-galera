@@ -35,7 +35,7 @@ galera_bootstrap_temp_config:
 
 galera_bootstrap_start_service:
   service.running:
-  - name: mysql
+  - name: {{ slave.service }}
   - require: 
     - file: galera_bootstrap_temp_config
 
@@ -70,6 +70,7 @@ galera_bootstrap_start_service_final:
   cmd.script:
   - name: slave_bootstrap
   - source: salt://galera/files/slave_bootstrap.sh
+  - template: jinja
   - require: 
     - file: galera_bootstrap_init_config
 

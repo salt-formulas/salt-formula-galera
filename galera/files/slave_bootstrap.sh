@@ -1,16 +1,17 @@
+{%- from "galera/map.jinja" import slave with context -%}
 #!/bin/bash
 
-service mysql start
+service {{ slave.service }} start
 
 counter=40
 
 while [ $counter -gt 0 ]
 do
-  service mysql status
+  service {{ slave.service }} status
   if [[ $? -eq 0 ]]; then
     exit 0
   fi
-  counter=$(( $counter - 1 )) 
+  counter=$(( $counter - 1 ))
   sleep 2
 done
 

@@ -35,7 +35,7 @@ galera_bootstrap_temp_config:
 
 galera_bootstrap_start_service:
   service.running:
-  - name: mysql
+  - name: {{ master.service }}
   - require: 
     - file: galera_bootstrap_temp_config
 
