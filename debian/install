@@ -1,0 +1,2 @@
+galera/*             /usr/share/salt-formulas/env/galera/
+metadata/service/*      /usr/share/salt-formulas/reclass/service/galera/
