@@ -12,7 +12,8 @@ xtrabackup_repo:
 # Workaround https://bugs.launchpad.net/percona-server/+bug/1490144
 xtrabackup_repo_fix:
   cmd.run:
-    - name: 'sed -i \'s,enabled\ =\ 1,enabled\ =\ 1\nexclude\ =\ Percona-XtraDB-\*\ Percona-Server-\*,g\' /etc/yum.repos.d/percona-release.repo'
+    - name: |
+        sed -i 's,enabled\ =\ 1,enabled\ =\ 1\nexclude\ =\ Percona-XtraDB-\*\ Percona-Server-\*,g' /etc/yum.repos.d/percona-release.repo
     - unless: 'grep "exclude = Percona-XtraDB-\*" /etc/yum.repos.d/percona-release.repo'
     - watch:
       - pkg: xtrabackup_repo
