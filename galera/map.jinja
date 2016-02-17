@@ -9,7 +9,7 @@
     'config': '/etc/mysql/my.cnf',
   },
   'RedHat': {
-    'pkgs': ['galera', 'mariadb-galera-server', 'mariadb', 'MySQL-python', 'rsync', 'percona-xtrabackup-22'],
+    'pkgs': ['galera', 'mariadb-galera-server', 'mariadb', 'MySQL-python', 'rsync', 'percona-xtrabackup', 'psmisc', 'socat'],
     'xtrabackup_repo': 'http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm',
     'service': 'mariadb',
     'wsrep_provider': '/usr/lib64/galera/libgalera_smm.so',
@@ -29,7 +29,7 @@
     'config': '/etc/mysql/my.cnf',
   },
   'RedHat': {
-    'pkgs': ['galera', 'mariadb-galera-server', 'mariadb', 'MySQL-python', 'rsync', 'percona-xtrabackup-22'],
+    'pkgs': ['galera', 'mariadb-galera-server', 'mariadb', 'MySQL-python', 'rsync', 'percona-xtrabackup', 'psmisc', 'socat'],
     'xtrabackup_repo': 'http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm',
     'service': 'mariadb',
     'wsrep_provider': '/usr/lib64/galera/libgalera_smm.so',

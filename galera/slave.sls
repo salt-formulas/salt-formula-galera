@@ -8,6 +8,16 @@ xtrabackup_repo:
     - percona-release: {{ slave.xtrabackup_repo }}
   - require_in:
     - pkg: galera_packages
+
+# Workaround https://bugs.launchpad.net/percona-server/+bug/1490144
+xtrabackup_repo_fix:
+  cmd.run:
+    - name: 'sed -i \'s,enabled\ =\ 1,enabled\ =\ 1\nexclude\ =\ Percona-XtraDB-\*\ Percona-Server-\*,g\' /etc/yum.repos.d/percona-release.repo'
+    - unless: 'grep "exclude = Percona-XtraDB-\*" /etc/yum.repos.d/percona-release.repo'
+    - watch:
+      - pkg: xtrabackup_repo
+    - require_in:
+      - pkg: galera_packages
 {%- endif %}
 
 galera_packages:
