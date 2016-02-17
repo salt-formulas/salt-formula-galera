@@ -1,6 +1,15 @@
 {%- from "galera/map.jinja" import master with context %}
 {%- if master.enabled %}
 
+{%- if grains.os_family == 'RedHat' %}
+xtrabackup_repo:
+  pkg.installed:
+  - sources:
+    - percona-xtrabackup: {{ master.xtrabackup_repo }}
+  - require_in:
+    - pkg: galera_packages
+{%- endif %}
+
 galera_packages:
   pkg.installed:
   - names: {{ master.pkgs }}
