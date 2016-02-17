@@ -5,7 +5,7 @@
 xtrabackup_repo:
   pkg.installed:
   - sources:
-    - percona-xtrabackup: {{ slave.xtrabackup_repo }}
+    - percona-release: {{ slave.xtrabackup_repo }}
   - require_in:
     - pkg: galera_packages
 {%- endif %}
@@ -13,6 +13,7 @@ xtrabackup_repo:
 galera_packages:
   pkg.installed:
   - names: {{ slave.pkgs }}
+  - refresh: true
 
 galera_log_dir:
   file.directory:
