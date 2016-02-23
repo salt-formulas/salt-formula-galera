@@ -56,6 +56,13 @@ galera_init_script:
   - require: 
     - pkg: galera_packages
 
+galera_bootstrap_script:
+  file.managed:
+  - name: /usr/local/sbin/galera_bootstrap.sh
+  - mode: 755
+  - source: salt://galera/files/bootstrap.sh
+  - template: jinja
+
 {%- if salt['cmd.run']('test -e /var/lib/mysql/.galera_bootstrap; echo $?') != '0'  %}
 
 galera_bootstrap_temp_config:
@@ -69,13 +76,12 @@ galera_bootstrap_temp_config:
     - file: galera_init_script
 
 galera_bootstrap_start_service:
-  cmd.script:
-  - name: slave_initial_bootstrap
-  - source: salt://galera/files/bootstrap.sh
-  - template: jinja
+  cmd.run:
+  - name: /usr/local/sbin/galera_bootstrap.sh
   - require: 
     - file: galera_bootstrap_temp_config
     - file: galera_run_dir
+    - file: galera_bootstrap_script
 
 galera_bootstrap_set_root_password:
   cmd.run:
@@ -105,12 +111,11 @@ galera_bootstrap_init_config:
     - service: galera_bootstrap_stop_service
 
 galera_bootstrap_start_service_final:
-  cmd.script:
-  - name: slave_bootstrap
-  - source: salt://galera/files/bootstrap.sh
-  - template: jinja
+  cmd.run:
+  - name: /usr/local/sbin/galera_bootstrap.sh
   - require: 
     - file: galera_bootstrap_init_config
+    - file: galera_bootstrap_script
 
 galera_bootstrap_finish_flag:
   file.touch:
