@@ -44,8 +44,6 @@ galera_run_dir:
   - group: root
   - require:
     - pkg: galera_packages
-  - require_in:
-    - service: galera_bootstrap_start_service
 {%- endif %}
 
 galera_init_script:
