@@ -2,7 +2,8 @@ Source: salt-formula-galera
 Maintainer: tcpcloud Packaging Team <pkg-team@tcpcloud.eu>
 Section: admin
 Priority: optional
-Build-Depends: salt-master, python, python-yaml, debhelper (>= 9)
+Build-Depends: salt-master, python, python-yaml, debhelper (>= 9),
+ salt-formula-mysql
 Standards-Version: 3.9.6
 Homepage: http://www.tcpcloud.eu
 Vcs-Browser: https://github.com/tcpcloud/salt-formula-galera
@@ -10,6 +11,6 @@ Vcs-Git: https://github.com/tcpcloud/salt-formula-galera.git
 
 Package: salt-formula-galera
 Architecture: all
-Depends: ${misc:Depends}, salt-master, reclass
+Depends: ${misc:Depends}, salt-master, reclass, salt-formula-mysql
 Description: galera salt formula
  Install and configure galera system.
