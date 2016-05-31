@@ -1,13 +1,13 @@
-{%- from "galera/map.jinja" import master with context %}
+{%- from "galera/map.jinja" import slave with context %}
 [client]
 host = localhost
 user = debian-sys-maint
-password = {{ master.maintenance_password }}
+password = {{ slave.maintenance_password }}
 socket = /var/run/mysqld/mysqld.sock
 
 [mysql_upgrade]
 host = localhost
 user = debian-sys-maint
-password = {{ master.maintenance_password }}
+password = {{ slave.maintenance_password }}
 socket = /var/run/mysqld/mysqld.sock
 basedir = /usr
