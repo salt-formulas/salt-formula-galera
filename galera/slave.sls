@@ -44,15 +44,23 @@ galera_run_dir:
   - group: root
   - require:
     - pkg: galera_packages
-{%- endif %}
 
-galera_init_script:
-  file.managed:
-  - name: /etc/init.d/mysql
-  - source: salt://galera/files/mysql
-  - mode: 755
-  - require: 
+galera_purge_init:
+  file.absent:
+  - name: /etc/init/mysql.conf
+  - require:
     - pkg: galera_packages
+
+galera_conf_debian:
+  file.managed:
+  - name: /etc/mysql/debian.cnf
+  - template: jinja
+  - source: salt://galera/files/debian.cnf
+  - mode: 640
+  - require:
+    - pkg: galera_packages
+
+{%- endif %}
 
 galera_bootstrap_script:
   file.managed:
@@ -63,21 +71,10 @@ galera_bootstrap_script:
 
 {%- if salt['cmd.run']('test -e /var/lib/mysql/.galera_bootstrap; echo $?') != '0'  %}
 
-galera_bootstrap_temp_config:
-  file.managed:
-  - name: {{ slave.config }}
-  - source: salt://galera/files/my.cnf.bootstrap
-  - mode: 644
-  - template: jinja
-  - require: 
-    - pkg: galera_packages
-    - file: galera_init_script
-
 galera_bootstrap_start_service:
   cmd.run:
   - name: /usr/local/sbin/galera_bootstrap.sh
   - require: 
-    - file: galera_bootstrap_temp_config
     - file: galera_run_dir
     - file: galera_bootstrap_script
 
