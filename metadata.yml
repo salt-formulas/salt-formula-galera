@@ -1,5 +1,5 @@
 name: "galera"
-version: "0.2"
+version: "1.0"
 source: "https://github.com/tcpcloud/salt-formula-galera"
 dependencies:
 - name: mysql

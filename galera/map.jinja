@@ -1,7 +1,7 @@
 
 {%- set master = salt['grains.filter_by']({
   'Debian': {
-    'pkgs': ['mysql-server-wsrep', 'galera', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup-21', 'socat'],
+    'pkgs': ['mysql-server-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat'],
     'service': 'mysql',
     'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
     'log_file': '/var/log/mysql.log',
@@ -21,7 +21,7 @@
 
 {%- set slave = salt['grains.filter_by']({
   'Debian': {
-    'pkgs': ['mysql-server-wsrep', 'galera', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup-21', 'socat'],
+    'pkgs': ['mysql-server-wsrep', 'galera', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat'],
     'service': 'mysql',
     'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
     'log_file': '/var/log/mysql.log',

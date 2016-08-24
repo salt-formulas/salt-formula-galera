@@ -1,3 +1,9 @@
+salt-formula-galera (1.0) trusty; urgency=medium
+
+  * New major release
+
+ -- Pavel Cizinsky <pavel.cizinsky@tcpcloud.eu>  Wed, 24 Aug 2016 10:56:00 +0200
+
 salt-formula-galera (0.2) trusty; urgency=medium
 
   * First public release

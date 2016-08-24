@@ -1,12 +1,20 @@
+{%- if pillar.galera.master is defined %}
+{%- from "galera/map.jinja" import master with context %}
+{%- set service = master %}
+{%- endif %}
+{%- if pillar.galera.slave is defined %}
+{%- from "galera/map.jinja" import slave with context %}
+{%- set service = slave %}
+{%- endif %}
 [client]
 host = localhost
 user = debian-sys-maint
-password = {{ pillar['mysql_config']['maintenance_password'] }}
+password = {{ service.maintenance_password }}
 socket = /var/run/mysqld/mysqld.sock
 
 [mysql_upgrade]
 host = localhost
 user = debian-sys-maint
-password = {{ pillar['mysql_config']['maintenance_password'] }}
+password = {{ service.maintenance_password }}
 socket = /var/run/mysqld/mysqld.sock
 basedir = /usr
