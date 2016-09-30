@@ -17,7 +17,7 @@
     'socket': '/var/run/mariadb/mysqld.sock',
     'config': '/etc/my.cnf',
   },
-}, merge=salt['pillar.get']('galera:master')) %}
+}, merge=pillar.galera.get('master', {})) %}
 
 {%- set slave = salt['grains.filter_by']({
   'Debian': {
@@ -37,4 +37,4 @@
     'socket': '/var/run/mariadb/mysqld.sock',
     'config': '/etc/my.cnf',
   },
-}, merge=salt['pillar.get']('galera:slave')) %}
+}, merge=pillar.galera.get('slave', {})) %}

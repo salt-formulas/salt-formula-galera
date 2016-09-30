@@ -1,0 +1,7 @@
+config:
+  {%- if pillar.galera.master is defined %}
+  {%- from "galera/map.jinja" import master with context %}
+  my.cnf:
+    source: "salt://galera/files/my.cnf.container"
+    template: jinja
+  {%- endif %}
