@@ -1,0 +1,37 @@
+parameters:
+  _param:
+    galera_server_cluster_name: galeracluster
+    galera_server_bind_port: 3306
+    galera_server_admin_user: root
+  kubernetes:
+    control:
+      configmap:
+        galera-master:
+          grains:
+            os_family: Debian
+          pillar:
+            galera:
+              master:
+                enabled: true
+                name: ${_param:galera_server_cluster_name}
+                bind:
+                  address: 0.0.0.0
+                  port: ${_param:galera_server_bind_port}
+                maintenance_password: ${_param:galera_server_maintenance_password}
+                admin:
+                  user: ${_param:galera_server_admin_user}
+                  password: ${_param:galera_server_admin_password}
+                members:
+                - host: ${_param:mysql_service_host01}
+                  port: 4567
+                - host: ${_param:mysql_service_host02}
+                  port: 4567
+                - host: ${_param:mysql_service_host03}
+                  port: 4567
+            mysql:
+              server:
+                users:
+                - name: haproxy
+                  host: localhost
+                - name: haproxy
+                  host: '%'
