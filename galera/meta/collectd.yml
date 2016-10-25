@@ -1,0 +1,29 @@
+{%- if pillar.galera is defined  %}
+{%- if pillar.galera.master is defined %}
+{%- from "galera/map.jinja" import master with context %}
+{%- set server = master %}
+{%- elif pillar.galera.slave is defined %}
+{%- from "galera/map.jinja" import slave with context %}
+{%- set server = slave %}
+{%- endif %}
+{%- endif %}
+
+{%- if server is defined %}
+local_plugin:
+  mysql:
+    template: galera/files/collectd_mysql.conf
+    socket: {{ server.socket }}
+    password: {{ server.admin.password }}
+    username: {{ server.admin.user }}
+  mysql_status:
+    template: galera/files/collectd_mysql_status.conf
+    socket: {{ server.socket }}
+    password: {{ server.admin.password }}
+    username: {{ server.admin.user }}
+  mysql_check:
+    plugin: python
+    template: galera/files/collectd_mysql_check.conf
+    socket: {{ server.socket }}
+    password: {{ server.admin.password }}
+    username: {{ server.admin.user }}
+{%- endif %}
