@@ -1,0 +1,20 @@
+log_collector:
+  decoder:
+    galera:
+      engine: sandbox
+      module_file: /usr/share/lma_collector/decoders/galera.lua
+      module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
+      adjust_timezone: true
+  input:
+    galera:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'mysql/error.log$'
+      differentiator: ["galera"]
+      decoder: "galera_decoder"
+      splitter: "galera_splitter"
+  splitter:
+    galera:
+      engine: regex
+      delimiter: '\n([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})'
+      delimiter_eol: false
