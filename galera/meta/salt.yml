@@ -1,0 +1,6 @@
+orchestrate:
+  master:
+    priority: 140
+  slave:
+    priority: 150
+
