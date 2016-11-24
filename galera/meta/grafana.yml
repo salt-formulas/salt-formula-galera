@@ -1,4 +1,4 @@
 dashboard:
   galera:
     format: json
-    template: galera/files/grafana_influxdb.json
+    template: galera/files/grafana_dashboards/mysql_influxdb.json
