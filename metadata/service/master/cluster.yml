@@ -1,5 +1,7 @@
 applications:
 - galera
+classes:
+- service.galera.support
 parameters:
   _param:
     galera_server_cluster_name: galeracluster
