@@ -67,7 +67,7 @@ metric_collector:
 aggregator:
   alarm_cluster:
     mysql:
-      policy: majority_of_members
+      policy: availability_of_members
       alerting: enabled_with_notification
       match:
         service: mysql
