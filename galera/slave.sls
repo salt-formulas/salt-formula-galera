@@ -45,11 +45,24 @@ galera_run_dir:
   - require:
     - pkg: galera_packages
 
+{%- if grains.get('init', None) == "upstart" %}
+
 galera_purge_init:
   file.absent:
-  - name: /etc/init/mysql.conf
+  - name: /etc/init.d/mysql
   - require:
     - pkg: galera_packages
+
+galera_overide:
+  file.managed:
+  - name: /etc/init/mysql.override
+  - contents: |
+      limit nofile 102400 102400
+      exec /usr/bin/mysqld_safe
+  - require:
+    - pkg: galera_packages
+
+{%- endif %}
 
 galera_conf_debian:
   file.managed:
