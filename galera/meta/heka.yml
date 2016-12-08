@@ -32,7 +32,7 @@ metric_collector:
         function: last
     mysql_node_connected:
       description: 'The MySQL service has lost connectivity with the other nodes'
-      severity: critical
+      severity: down
       rules:
       - metric: mysql_cluster_connected
         relational_operator: '=='
@@ -42,7 +42,7 @@ metric_collector:
         function: min
     mysql_node_ready:
       description: "The MySQL service isn't ready to serve queries"
-      severity: critical
+      severity: down
       rules:
       - metric: mysql_cluster_ready
         relational_operator: '=='
@@ -56,25 +56,46 @@ metric_collector:
       triggers:
       - mysql_check
       dimension:
-        service: mysql
+        service: mysql-check
     mysql_node_status:
       alerting: enabled
       triggers:
       - mysql_node_connected
       - mysql_node_ready
       dimension:
-        service: mysql
+        service: mysql-node-status
 aggregator:
   alarm_cluster:
-    mysql:
+    mysql_check:
       policy: availability_of_members
-      alerting: enabled_with_notification
+      alerting: enabled
       match:
-        service: mysql
+        service: mysql-check
       group_by: hostname
       members:
       - mysql_check
+      dimension:
+        service: mysql
+        nagios_host: 01-service-clusters
+    mysql_status:
+      policy: availability_of_members
+      alerting: enabled
+      match:
+        service: mysql-node-status
+      group_by: hostname
+      members:
       - mysql_node_status
+      dimension:
+        service: mysql
+        nagios_host: 01-service-clusters
+    mysql:
+      policy: highest_severity
+      alerting: enabled_with_notification
+      match:
+        service: mysql
+      members:
+      - mysql_check
+      - mysql_status
       dimension:
         cluster_name: mysql
         nagios_host: 00-top-clusters
