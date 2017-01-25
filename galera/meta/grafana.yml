@@ -2,3 +2,18 @@ dashboard:
   galera:
     format: json
     template: galera/files/grafana_dashboards/mysql_influxdb.json
+  main:
+    row:
+      ost-middleware:
+        title: Middleware
+        panel:
+          mysql:
+            title: MySQL
+            links:
+            - dashboard: MySQL
+              title: MySQL
+              type: dashboard
+            target:
+              cluster_status:
+                rawQuery: true
+                query: SELECT last(value) FROM cluster_status WHERE cluster_name = 'mysql' AND environment_label = '$environment' AND $timeFilter GROUP BY time($interval) fill(null)
