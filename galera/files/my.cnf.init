@@ -9,7 +9,8 @@
 {%- from "galera/map.jinja" import slave with context %}
 {%- set service = slave %}
 {%- endif %}
-
+[mysqld_safe]
+syslog
 [mysqld]
 datadir=/var/lib/mysql
 bind-address={{ service.bind.address }}
@@ -21,7 +22,6 @@ collation-server=utf8_general_ci
 init-connect='SET NAMES utf8'
 character-set-server=utf8
 default-storage-engine=innodb
-
 skip-external-locking
 skip-name-resolve
 

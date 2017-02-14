@@ -95,6 +95,16 @@ galera_bootstrap_script:
 
 {%- if salt['cmd.run']('test -e /var/lib/mysql/.galera_bootstrap; echo $?') != '0'  %}
 
+# Enforce config before package installation
+galera_pre_config:
+  file.managed:
+  - name: {{ slave.config }}
+  - source: salt://galera/files/my.cnf.pre
+  - mode: 644
+  - template: jinja
+  - require_in:
+    - pkg: galera_packages
+
 galera_init_start_service:
   cmd.run:
   - name: /usr/local/sbin/galera_init.sh
