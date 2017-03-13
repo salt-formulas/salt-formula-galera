@@ -102,6 +102,7 @@ galera_pre_config:
   - source: salt://galera/files/my.cnf.pre
   - mode: 644
   - template: jinja
+  - makedirs: true
   - require_in:
     - pkg: galera_packages
 
