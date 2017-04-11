@@ -1,6 +1,6 @@
 name: "galera"
 version: "1.0"
-source: "https://github.com/tcpcloud/salt-formula-galera"
+source: "https://github.com/salt-formulas/salt-formula-galera"
 dependencies:
 - name: mysql
-  source: "https://github.com/tcpcloud/salt-formula-mysql"
+  source: "https://github.com/salt-formulas/salt-formula-mysql"
