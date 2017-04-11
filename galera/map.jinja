@@ -1,7 +1,7 @@
 
 {%- set master = salt['grains.filter_by']({
   'Debian': {
-    'pkgs': ['mysql-server-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
+    'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
     'service': 'mysql',
     'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
     'log_file': '/var/log/mysql.log',
@@ -21,7 +21,7 @@
 
 {%- set slave = salt['grains.filter_by']({
   'Debian': {
-    'pkgs': ['mysql-server-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
+    'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
     'service': 'mysql',
     'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
     'log_file': '/var/log/mysql.log',
@@ -36,5 +36,22 @@
     'log_file': '/var/log/mariadb/mariadb.log',
     'socket': '/var/run/mariadb/mysqld.sock',
     'config': '/etc/my.cnf',
-  },
-}, merge=pillar.galera.get('slave', {})) %}
+    },
+  }, merge=salt['grains.filter_by']({
+  'trusty': {
+    'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
+    'service': 'mysql',
+    'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
+    'log_file': '/var/log/mysql.log',
+    'socket': '/var/run/mysqld/mysqld.sock',
+    'config': '/etc/mysql/my.cnf',
+    },
+  'xenial': {
+    'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient-dev', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
+    'service': 'mysql',
+    'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
+    'log_file': '/var/log/mysql.log',
+    'socket': '/var/run/mysqld/mysqld.sock',
+    'config': '/etc/mysql/my.cnf',
+    },
+}, grain='oscodename', merge=pillar.galera.get('slave', {}))) %}
