@@ -1,0 +1,60 @@
+---
+driver:
+  name: docker
+  hostname: galera.ci.local
+  use_sudo: false
+
+provisioner:
+  name: salt_solo
+  salt_install: bootstrap
+  salt_bootstrap_url: https://bootstrap.saltstack.com
+  salt_version: latest
+  require_chef: false
+  log_level: error
+  formula: galera
+  grains:
+    noservices: True
+  state_top:
+    base:
+      "*":
+        - linux
+        - galera
+  pillars:
+    top.sls:
+      base:
+        "*":
+          - galera
+          - galeracluster_debian_repo
+  pillars-from-files:
+    galeracluster_debian_repo.sls: tests/pillar/repo_galeracluster.sls
+  dependencies:
+    - name: mysql
+      repo: git
+      source: https://github.com/salt-formulas/salt-formula-mysql.git
+  dependencies:
+    - name: linux
+      repo: git
+      source: https://github.com/salt-formulas/salt-formula-linux.git
+
+verifier:
+  name: inspec
+  sudo: true
+
+platforms:
+  - name: <%=ENV['PLATFORM'] || 'ubuntu-xenial'%>
+    driver_config:
+      image: <%=ENV['PLATFORM'] || 'trevorj/salty-whales:xenial'%>
+      platform: ubuntu
+
+suites:
+
+  - name: master_cluster
+    provisioner:
+      pillars-from-files:
+        galera.sls: tests/pillar/master_cluster.sls
+
+  - name: slave_cluster
+    provisioner:
+      pillars-from-files:
+        galera.sls: tests/pillar/slave_cluster.sls
+# vim: ft=yaml sw=2 ts=2 sts=2 tw=125
