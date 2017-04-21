@@ -9,7 +9,7 @@ log_collector:
     galera:
       engine: logstreamer
       log_directory: "/var/log"
-      file_match: 'mysql/error.log$'
+      file_match: 'mysql/error\.log$'
       differentiator: ["galera"]
       decoder: "galera_decoder"
       splitter: "galera_splitter"
