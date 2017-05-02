@@ -106,7 +106,7 @@ galera_pre_config:
   - require_in:
     - pkg: galera_packages
 
-{%- if not grains.get('noservices','false')%}
+{%- if not grains.get('noservices', False) %}
 
 galera_init_start_service:
   cmd.run:
@@ -141,12 +141,12 @@ galera_bootstrap_init_config:
   - source: salt://galera/files/my.cnf
   - mode: 644
   - template: jinja
-  {%- if not grains.get('noservices','false')%}
+  {%- if not grains.get('noservices', False) %}
   - require: 
     - service: galera_bootstrap_stop_service
   {%- endif %}
 
-{%- if not grains.get('noservices','false')%}
+{%- if not grains.get('noservices', False) %}
 
 galera_bootstrap_start_service_final:
   cmd.run:
@@ -172,12 +172,12 @@ galera_config:
   - source: salt://galera/files/my.cnf
   - mode: 644
   - template: jinja
-  {%- if not grains.get('noservices','false')%}
+  {%- if not grains.get('noservices', False) %}
   - require_in: 
     - service: galera_service
   {%- endif %}
 
-{%- if not grains.get('noservices','false')%}
+{%- if not grains.get('noservices', False) %}
 
 galera_service:
   service.running:
