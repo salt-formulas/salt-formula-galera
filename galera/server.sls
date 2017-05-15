@@ -37,6 +37,7 @@ mysql_grants_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   - template: jinja
   - defaults:
     database_name: {{ database_name }}
+    database: {{ database }}
   - require: 
     - file: mysql_dirs
     - mysql_database: mysql_database_{{ database_name }}
