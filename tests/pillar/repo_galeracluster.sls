@@ -8,4 +8,3 @@ linux:
         key_server: hkp://p80.pool.sks-keyservers.net:80
       mitaka-staging_PPA:
         source: "deb http://ppa.launchpad.net/ubuntu-cloud-archive/mitaka-staging/ubuntu trusty main"
-        
