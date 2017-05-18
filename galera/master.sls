@@ -25,6 +25,7 @@ galera_packages:
   pkg.installed:
   - names: {{ master.pkgs }}
   - refresh: true
+  - force_yes: True
 
 galera_log_dir:
   file.directory:
@@ -106,6 +107,8 @@ galera_pre_config:
   - require_in:
     - pkg: galera_packages
 
+{%- if not grains.get('noservices', False) %}
+
 galera_init_start_service:
   cmd.run:
   - name: /usr/local/sbin/galera_init.sh
@@ -128,8 +131,12 @@ mysql_bootstrap_update_maint_password:
 galera_bootstrap_stop_service:
   service.dead:
   - name: {{ master.service }}
+  {%- if not grains.get('noservices', False) %}
   - require:
     - cmd: mysql_bootstrap_update_maint_password
+  {%- endif %}
+
+{%- endif %}
 
 galera_bootstrap_init_config:
   file.managed:
@@ -137,8 +144,12 @@ galera_bootstrap_init_config:
   - source: salt://galera/files/my.cnf.init
   - mode: 644
   - template: jinja
+  {%- if not grains.get('noservices', False) %}
   - require: 
     - service: galera_bootstrap_stop_service
+  {%- endif %}
+
+{%- if not grains.get('noservices', False) %}
 
 galera_bootstrap_start_service_final:
   cmd.run:
@@ -147,11 +158,15 @@ galera_bootstrap_start_service_final:
     - file: galera_bootstrap_init_config
     - file: galera_bootstrap_script
 
+{%- endif %}
+
 galera_bootstrap_finish_flag:
   file.touch:
   - name: /var/lib/mysql/.galera_bootstrap
+  {%- if not grains.get('noservices', False) %}
   - require:
     - cmd: galera_bootstrap_start_service_final
+  {%- endif %}
   - watch_in:
     - file: galera_config
 
@@ -163,8 +178,12 @@ galera_config:
   - source: salt://galera/files/my.cnf
   - mode: 644
   - template: jinja
+  {%- if not grains.get('noservices', False) %}
   - require_in: 
     - service: galera_service
+  {%- endif %}
+
+{%- if not grains.get('noservices', False) %}
 
 galera_service:
   service.running:
@@ -172,4 +191,5 @@ galera_service:
   - enable: true
   - reload: true
 
+{%- endif %}
 {%- endif %}
