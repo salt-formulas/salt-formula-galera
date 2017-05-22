@@ -84,6 +84,7 @@ galera_init_script:
   - defaults:
       service: {{ master|yaml }}
   - template: jinja
+  - timeout: 1800
 
 galera_bootstrap_script:
   file.managed:
@@ -115,6 +116,7 @@ galera_init_start_service:
   - require:
     - file: galera_run_dir
     - file: galera_init_script
+  - timeout: 1800
 
 galera_bootstrap_set_root_password:
   cmd.run:
