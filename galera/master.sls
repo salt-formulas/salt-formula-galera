@@ -63,6 +63,37 @@ galera_overide:
   - require:
     - pkg: galera_packages
 
+{%- elif grains.get('init', None) == "systemd" %}
+
+galera_systemd_directory_present:
+  file.directory:
+  - name: /etc/systemd/system/mysql.service.d
+  - user: root
+  - group: root
+  - mode: 755
+  - require:
+    - pkg: galera_packages
+
+galera_override_limit_no_file:
+  file.managed:
+  - name: /etc/systemd/system/mysql.service.d/override.conf
+  - contents: |
+      [service]
+      LimitNOFILE=1024000
+  - require:
+    - pkg: galera_packages
+    - file: galera_systemd_directory_present
+  - watch_in:
+    - service: galera_service
+
+mysql_restart_systemd:
+  module.wait:
+  - name: service.systemctl_reload
+  - watch:
+    - file: /etc/systemd/system/mysql.service.d/override.conf
+  - require_in:
+    - service: galera_service
+
 {%- endif %}
 
 galera_conf_debian:
