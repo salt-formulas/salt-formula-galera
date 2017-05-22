@@ -56,17 +56,54 @@ restore_mysql_database_{{ database_name }}:
 
 {%- if not grains.get('noservices', False) %}
 {%- for user in server.get('users', []) %}
-
-mysql_user_{{ user.name }}_{{ user.host }}:
+{%- set user_hosts = user.get('hosts', user.get('host', 'localhost'))|sequence %}
+{%- for host in user_hosts %}
+mysql_user_{{ user.name }}_{{ host }}:
   mysql_user.present:
   - host: '{{ user.host }}'
   - name: '{{ user.name }}'
-  {%- if user.password is defined %}
-  - password: {{ user.password }}
+  {%- if user['password_hash'] is defined %}
+    - password_hash: '{{ user.password_hash }}'
+  {%- elif user['password'] is defined and user['password'] != None %}
+    - password: '{{ user.password }}'
   {%- else %}
   - allow_passwordless: True
   {%- endif %}
+  - connection_charset: utf8
+
+{%- if 'grants' in user %}
+mysql_user_{{ user.name }}_{{ host }}_grants:
+  mysql_grants.present:
+    - name: {{ user.name }}
+    - grant: {{ user['grants']|sequence|join(",") }}
+    - database: '*.*'
+    - grant_option: {{ user['grant_option'] | default(False) }}
+    - user: {{ user.name }}
+    - host: '{{ host }}'
+    - connection_charset: utf8
+    - require:
+      - mysql_user_{{ user.name }}_{{ host }}
+{%- endif %}
+
+{%- if 'databases' in user %}
+{% for db in user['databases'] %}
+mysql_user_{{ user.name }}_{{ host }}_grants_db_{{ db }} ~ '_' ~ loop.index0:
+  mysql_grants.present:
+    - name: {{ user.name ~ '_' ~ db['database']  ~ '_' ~ db['table'] | default('all') }}
+    - grant: {{db['grants']|sequence|join(",")}}
+    - database: '{{ db['database'] }}.{{ db['table'] | default('*') }}'
+    - grant_option: {{ db['grant_option'] | default(False) }}
+    - user: {{ user.name }}
+    - host: '{{ host }}'
+    - connection_charset: utf8
+    - require:
+      - mysql_user_{{ user.name }}_{{ host }}
+      - mysql_database_{{ db }}
+{%- endfor %}
+{%- endif %}
 
 {%- endfor %}
+{%- endfor %}
+
 {%- endif %}
 {%- endif %}
