@@ -165,5 +165,19 @@ galera_xinetd_service:
     - pkg: xinetd
 {%- endif %}
 
+{%- endif %}
+
+{%- if _galera_xinetd_srv|length > 0 %}
+haproxy_xinetd_package:
+  pkg.installed:
+  - name: xinetd
+
+galera_xinetd_service:
+  service.running:
+  - name: xinetd
+  - require:
+    - pkg: xinetd
+{%- endif %}
+
 
 {%- endif %}
