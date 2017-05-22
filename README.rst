@@ -80,6 +80,18 @@ Additional mysql users:
                 - grants:
                   - all privileges
 
+Additional check params: 
+    mysql:
+      server:
+        clustercheck:
+          - user: clustercheck
+          - password: clustercheck
+          - available_when_donor: 0
+          - available_when_readonly: 1
+          - enabled: True
+          - xinetd_port 9200
+
+
 Usage
 =====
 
