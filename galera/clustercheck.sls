@@ -26,7 +26,7 @@ clustercheck_dir:
     - defaults:
         user: nobody
         server: '/usr/local/bin/clustercheck {{ clustercheck.get('user', 'clustercheck') }} {{ clustercheck.get('password', 'clustercheck') }} {{ clustercheck.get('available_when_donor', 0) }} {{ clustercheck.get('available_when_readonly', 0) }}'
-        port: clustercheck.get('port', 9200)
+        port: {{ clustercheck.get('port', 9200) }}
         flags: REUSE
         per_source: UNLIMITED
     - require:
