@@ -7,6 +7,7 @@ clustercheck_dir:
   - user: root
   - group: root
   - mode: 750
+  - makedirs: True
 
 /usr/local/bin/mysql_clustercheck:
   file.managed:

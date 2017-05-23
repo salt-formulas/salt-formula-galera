@@ -1,5 +1,5 @@
 {%- if pillar.get('mysql', {}).server is defined  %}
-{%- from "mysql/map.jinja" import mysql_connection_args as connection %}
+{%- from "mysql/map.jinja" import mysql_connection_args as connection with context %}
 {%- set server = pillar.mysql.server %}
 
 {%- for database_name, database in server.get('database', {}).iteritems() %}
