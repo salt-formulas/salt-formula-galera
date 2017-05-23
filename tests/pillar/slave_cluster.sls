@@ -16,13 +16,13 @@
         port: 4567
       - host: 127.0.0.1
         port: 4567
-      clustercheck:
-        enabled: True
-        user: clustercheck
-        password: password
-        available_when_donor: 1
-        available_when_readonly: 1
-        port: 9200
+    clustercheck:
+      enabled: True
+      user: clustercheck
+      password: password
+      available_when_donor: 1
+      available_when_readonly: 1
+      port: 9200
   mysql:
     server:
       users:
