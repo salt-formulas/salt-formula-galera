@@ -7,6 +7,9 @@ include:
 {%- if pillar.galera.slave is defined %}
 - galera.slave
 {%- endif %}
+{%- if pillar.galera.clustercheck is defined %}
+- galera.clustercheck
+{%- endif %}
 {%- if pillar.galera.monitor is defined %}
 - galera.monitor
 {%- endif %}

@@ -14,6 +14,13 @@ provisioner:
   formula: galera
   grains:
     noservices: True
+  dependencies:
+    - name: mysql
+      repo: git
+      source: https://github.com/salt-formulas/salt-formula-mysql.git
+    - name: linux
+      repo: git
+      source: https://github.com/salt-formulas/salt-formula-linux.git
   state_top:
     base:
       "*":
@@ -27,14 +34,6 @@ provisioner:
           - galeracluster_debian_repo
   pillars-from-files:
     galeracluster_debian_repo.sls: tests/pillar/repo_galeracluster.sls
-  dependencies:
-    - name: mysql
-      repo: git
-      source: https://github.com/salt-formulas/salt-formula-mysql.git
-  dependencies:
-    - name: linux
-      repo: git
-      source: https://github.com/salt-formulas/salt-formula-linux.git
 
 verifier:
   name: inspec
