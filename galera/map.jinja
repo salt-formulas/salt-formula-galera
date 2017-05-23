@@ -55,3 +55,15 @@
     'config': '/etc/mysql/my.cnf',
     },
 }, grain='oscodename', merge=pillar.galera.get('slave', {}))) %}
+
+{% set clustercheck = salt['grains.filter_by']({
+  'default': {
+    'clustercheck': {
+     'enabled': True,
+     'user': clustercheck,
+     'password': clustercheck,
+     'port': '9200'
+    },
+  },
+}, merge=pillar.galera.get('clustercheck', {})) %}
+

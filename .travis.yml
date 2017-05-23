@@ -25,7 +25,7 @@ before_script:
   - make test | tail
 
 script:
-  - test ! -e .kitchen.yml || bundle exec kitchen test -t tests/integration
+  - bundle exec kitchen test -t tests/integration
 
 notifications:
   webhooks:

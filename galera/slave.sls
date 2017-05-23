@@ -115,6 +115,7 @@ galera_init_start_service:
   - require: 
     - file: galera_run_dir
     - file: galera_init_script
+  - timeout: 1800
 
 galera_bootstrap_set_root_password:
   cmd.run:
@@ -155,6 +156,7 @@ galera_bootstrap_start_service_final:
   - require: 
     - file: galera_bootstrap_init_config
     - file: galera_bootstrap_script
+  - timeout: 1800
 
 galera_bootstrap_finish_flag:
   file.touch:
@@ -179,73 +181,11 @@ galera_config:
   {%- endif %}
 
 {%- if not grains.get('noservices', False) %}
-
 galera_service:
   service.running:
   - name: {{ slave.service }}
   - enable: true
   - reload: true
-
-{%- endif %}
-
-
-
-{%- set _galera_xinetd_srv = [] %}
-
-{%- for server_name, server in master.get('bind', {}).iteritems() %}
-{%- if server.get.get('clustercheck', {}).get('enabled', False) == True %}
-{%- for bind in slave.bind %}
-{%- set index = '_{0}_{1}'.format(bind.address, bind.port) %}
-{%- set _ccheck = server.clustercheck %}
-{%- do _galera_xinetd_srv.append('clustercheck') %}
-/etc/xinetd.d/mysql_clustercheck{{ index }}_{{ _ccheck.get('clustercheckport', 9200) }}:
-  file.managed:
-    - source: salt://galera/files/xinet.d.conf
-    - template: jinja
-    - defaults:
-        user: nobody
-        # FIXME, add optins if check_attr host/port is defined etc..
-        server: '/usr/local/bin/clustercheck {{ _ccheck.get('user', 'clustercheck') }} {{ _ccheck.get('password', 'clustercheck') }} {{ _ccheck.get('available_when_donor', 0) }} {{ _ccheck.get('available_when_readonly', 0) }}'
-        port: _ccheck.get('port', 9200)
-        flags: REUSE
-        per_source: UNLIMITED
-    - require:
-      - file: /usr/local/bin/mysql_clustercheck
-    - watch_in:
-      - galera_xinetd_service
-
-{%- endfor %}
-{%- endif %}
-{%- endfor %}
-
-{% if 'clustercheck' in _galera_xinetd_srv %}
-clustercheck_dir:
-  file.directory:
-  - name: /usr/local/bin/
-  - user: root
-  - group: root
-  - mode: 750
-
-/usr/local/bin/mysql_clustercheck:
-  file.managed:
-    - source: salt://galera/files/clustercheck.sh
-    - user: root
-    - group: root
-    - mode: 755
-    - require:
-      - file: clustercheck_dir
-{%- endif %}
-
-{%- if _galera_xinetd_srv|length > 0 %}
-haproxy_xinetd_package:
-  pkg.installed:
-  - name: xinetd
-
-galera_xinetd_service:
-  service.running:
-  - name: xinetd
-  - require:
-    - pkg: xinetd
 {%- endif %}
 
 

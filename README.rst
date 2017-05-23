@@ -68,7 +68,6 @@ Additional mysql users:
             password: clustercheck
             database: '*.*'
             grants: PROCESS
-            grant_option: False
           - name: inspector
             host: 127.0.0.1
             password: password
@@ -76,20 +75,22 @@ Additional mysql users:
               mydb:
                 - database: mydb
                 - table: mytable
-                - grant_option: False
+                - grant_option: True
                 - grants:
                   - all privileges
 
-Additional check params: 
-    mysql:
-      server:
-        clustercheck:
-          - user: clustercheck
-          - password: clustercheck
-          - available_when_donor: 0
-          - available_when_readonly: 1
-          - enabled: True
-          - xinetd_port 9200
+Additional check params:
+
+.. code-block:: yaml
+
+    galera:
+      clustercheck:
+        - enabled: True
+        - user: clustercheck
+        - password: clustercheck
+        - available_when_donor: 0
+        - available_when_readonly: 1
+        - port 9200
 
 
 Usage
@@ -98,7 +99,7 @@ Usage
 MySQL Galera check sripts
 
 .. code-block:: bash
-    
+
     mysql> SHOW STATUS LIKE 'wsrep%';
 
     mysql> SHOW STATUS LIKE 'wsrep_cluster_size' ;"
