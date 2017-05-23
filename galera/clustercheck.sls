@@ -22,6 +22,7 @@ clustercheck_dir:
   file.managed:
     - source: salt://galera/files/xinet.d.conf
     - template: jinja
+    - makedirs: True
     - defaults:
         user: nobody
         server: '/usr/local/bin/clustercheck {{ clustercheck.get('user', 'clustercheck') }} {{ clustercheck.get('password', 'clustercheck') }} {{ clustercheck.get('available_when_donor', 0) }} {{ clustercheck.get('available_when_readonly', 0) }}'
