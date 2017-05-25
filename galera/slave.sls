@@ -78,7 +78,7 @@ galera_override_limit_no_file:
   file.managed:
   - name: /etc/systemd/system/mysql.service.d/override.conf
   - contents: |
-      [service]
+      [Service]
       LimitNOFILE=1024000
   - require:
     - pkg: galera_packages
