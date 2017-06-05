@@ -1,0 +1,18 @@
+{%- if pillar.galera is defined  %}
+{%- if pillar.galera.master is defined %}
+{%- from "galera/map.jinja" import master with context %}
+{%- set server = master %}
+{%- elif pillar.galera.slave is defined %}
+{%- from "galera/map.jinja" import slave with context %}
+{%- set server = slave %}
+{%- endif %}
+{%- endif %}
+
+{%- if server is defined %}
+agent:
+  input:
+    mysql:
+      address: {{ server.socket }}
+      username: {{ server.admin.user }}
+      password: {{ server.admin.password }}
+{%- endif %}
