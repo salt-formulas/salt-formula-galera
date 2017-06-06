@@ -1,0 +1,22 @@
+{% raw %}
+server:
+  alert:
+    GaleraNodeNotReady:
+      if: 'mysql_wsrep_ready != 1'
+      for: 1m
+      labels:
+        severity: warning
+        service: mysql
+      annotations:
+        summary: 'Galera on {{ $labels.host }} not ready'
+        description: 'The Galera service on {{ $labels.host }} is not ready to serve queries.'
+    GaleraNodeNotConnected:
+      if: 'mysql_wsrep_connected != 1'
+      for: 1m
+      labels:
+        severity: warning
+        service: mysql
+      annotations:
+        summary: 'Galera on {{ $labels.host }} not connected'
+        description: 'The Galera service on {{ $labels.host }} is not connected to the cluster.'
+{% endraw %}
