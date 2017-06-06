@@ -56,6 +56,30 @@ Galera cluster slave node
           user: root
           password: pass
 
+
+Additional mysql users:
+
+.. code-block:: yaml
+
+    mysql:
+      server:
+        users:
+          - name: clustercheck
+            password: clustercheck
+            database: '*.*'
+            grants: PROCESS
+            grant_option: False
+          - name: inspector
+            host: 127.0.0.1
+            password: password
+            databases:
+              mydb:
+                - database: mydb
+                - table: mytable
+                - grant_option: False
+                - grants:
+                  - all privileges
+
 Usage
 =====
 
