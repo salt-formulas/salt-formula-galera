@@ -146,6 +146,7 @@ galera_init_start_service:
   - require: 
     - file: galera_run_dir
     - file: galera_init_script
+  - timeout: 1800
 
 galera_bootstrap_set_root_password:
   cmd.run:
@@ -186,6 +187,7 @@ galera_bootstrap_start_service_final:
   - require: 
     - file: galera_bootstrap_init_config
     - file: galera_bootstrap_script
+  - timeout: 1800
 
 galera_bootstrap_finish_flag:
   file.touch:
@@ -210,12 +212,12 @@ galera_config:
   {%- endif %}
 
 {%- if not grains.get('noservices', False) %}
-
 galera_service:
   service.running:
   - name: {{ slave.service }}
   - enable: true
   - reload: true
-
 {%- endif %}
+
+
 {%- endif %}

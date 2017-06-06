@@ -56,13 +56,50 @@ Galera cluster slave node
           user: root
           password: pass
 
+
+Additional mysql users:
+
+.. code-block:: yaml
+
+    mysql:
+      server:
+        users:
+          - name: clustercheck
+            password: clustercheck
+            database: '*.*'
+            grants: PROCESS
+          - name: inspector
+            host: 127.0.0.1
+            password: password
+            databases:
+              mydb:
+                - database: mydb
+                - table: mytable
+                - grant_option: True
+                - grants:
+                  - all privileges
+
+Additional check params:
+
+.. code-block:: yaml
+
+    galera:
+      clustercheck:
+        - enabled: True
+        - user: clustercheck
+        - password: clustercheck
+        - available_when_donor: 0
+        - available_when_readonly: 1
+        - port 9200
+
+
 Usage
 =====
 
 MySQL Galera check sripts
 
 .. code-block:: bash
-    
+
     mysql> SHOW STATUS LIKE 'wsrep%';
 
     mysql> SHOW STATUS LIKE 'wsrep_cluster_size' ;"
