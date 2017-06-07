@@ -15,4 +15,5 @@ agent:
       address: {{ server.socket }}
       username: {{ server.admin.user }}
       password: {{ server.admin.password }}
+      tagexclude: [server]
 {%- endif %}
