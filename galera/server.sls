@@ -54,7 +54,6 @@ restore_mysql_database_{{ database_name }}:
 
 {%- endfor %}
 
-{%- if not grains.get('noservices', False) %}
 {%- for user in server.get('users', []) %}
 
 mysql_user_{{ user.name }}_{{ user.host }}:
@@ -66,7 +65,9 @@ mysql_user_{{ user.name }}_{{ user.host }}:
   {%- else %}
   - allow_passwordless: True
   {%- endif %}
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
 
 {%- endfor %}
-{%- endif %}
 {%- endif %}
