@@ -105,7 +105,7 @@ galera_conf_debian:
   - require:
     - pkg: galera_packages
 
-{%- endif %} 
+{%- endif %}
 
 galera_init_script:
   file.managed:
@@ -166,11 +166,26 @@ mysql_bootstrap_update_maint_password:
   - require:
     - cmd: galera_bootstrap_set_root_password
 
+galera_bootstrap_stop_service_pre:
+  cmd.run:
+  - name: mysqladmin -h localhost -u root -p{{ master.admin.password }} shutdown
+  {%- if not grains.get('noservices', False) %}
+  - ignore_retcode: true
+  - require:
+    - cmd: mysql_bootstrap_update_maint_password
+  {%- else %}
+  - onlyif: /bin/false
+  {%- endif %}
+
 galera_bootstrap_stop_service:
   service.dead:
   - name: {{ master.service }}
+  {%- if not grains.get('noservices', False) %}
   - require:
-    - cmd: mysql_bootstrap_update_maint_password
+    - cmd: galera_bootstrap_stop_service_pre
+  {%- else %}
+  - onlyif: /bin/false
+  {%- endif %}
 
 galera_bootstrap_init_config:
   file.managed:
@@ -178,7 +193,7 @@ galera_bootstrap_init_config:
   - source: salt://galera/files/my.cnf.init
   - mode: 644
   - template: jinja
-  - require: 
+  - require:
     - service: galera_bootstrap_stop_service
 
 galera_bootstrap_start_service_final:
@@ -207,7 +222,7 @@ galera_config:
   - source: salt://galera/files/my.cnf
   - mode: 644
   - template: jinja
-  - require_in: 
+  - require_in:
     - service: galera_service
 
 galera_service:
