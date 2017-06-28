@@ -70,7 +70,6 @@ restore_mysql_database_{{ database_name }}:
 
 {%- for user in server.get('users', []) %}
 {%- for host in user.get('hosts', user.get('host', 'localhost'))|sequence %}
-{%- if not grains.get('noservices', False) %}
 mysql_user_{{ user.name }}_{{ host }}:
   mysql_user.present:
   - host: '{{ host }}'
@@ -85,7 +84,10 @@ mysql_user_{{ user.name }}_{{ host }}:
   #- connection_user: {{ connection.user }}
   #- connection_pass: {{ connection.password }}
   #- connection_charset: {{ connection.charset }}
-
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
+  
 {%- if 'grants' in user %}
 mysql_user_{{ user.name }}_{{ host }}_grants:
   mysql_grants.present:
@@ -100,6 +102,9 @@ mysql_user_{{ user.name }}_{{ host }}_grants:
     #- connection_charset: {{ connection.charset }}
     - require:
       - mysql_user_{{ user.name }}_{{ host }}
+    {%- if grains.get('noservices') %}
+    - onlyif: /bin/false
+    {%- endif %}
 {%- endif %}
 
 {%- if 'databases' in user %}
@@ -118,12 +123,13 @@ mysql_user_{{ user.name }}_{{ host }}_grants_db_{{ db.database }}_{{ loop.index0
     - require:
       - mysql_user_{{ user.name }}_{{ host }}
       - mysql_database_{{ db.database }}
+    {%- if grains.get('noservices') %}
+    - onlyif: /bin/false
+    {%- endif %}
 {%- endfor %}
 {%- endif %}
 
-{%- endif %}
 {%- endfor %}
 {%- endfor %}
-
 
 {%- endif %}

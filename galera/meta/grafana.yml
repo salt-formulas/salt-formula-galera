@@ -1,5 +1,10 @@
 dashboard:
-  galera:
+  galera_prometheus:
+    datasource: prometheus
+    format: json
+    template: galera/files/grafana_dashboards/mysql_prometheus.json
+  galera_influxdb:
+    datasource: influxdb
     format: json
     template: galera/files/grafana_dashboards/mysql_influxdb.json
   main:
