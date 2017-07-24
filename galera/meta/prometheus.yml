@@ -1,6 +1,15 @@
 {% raw %}
 server:
   alert:
+    GaleraServiceDown:
+      if: >-
+        mysql_up != 1
+      labels:
+        severity: warning
+        service: mysql
+      annotations:
+        summary: 'Galera service down'
+        description: 'Galera service is down on node {{ $labels.host }}'
     GaleraNodeNotReady:
       if: 'mysql_wsrep_ready != 1'
       for: 1m
