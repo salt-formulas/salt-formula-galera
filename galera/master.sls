@@ -1,5 +1,5 @@
 {%- from "galera/map.jinja" import master with context %}
-{%- if master.enabled %}
+{%- if master.get('enabled', False) %}
 
 {%- if grains.os_family == 'RedHat' %}
 xtrabackup_repo:
