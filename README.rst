@@ -80,6 +80,7 @@ Additional mysql users:
                   - all privileges
 
 Additional check params:
+========================
 
 .. code-block:: yaml
 
@@ -91,6 +92,20 @@ Additional check params:
         - available_when_donor: 0
         - available_when_readonly: 1
         - port 9200
+
+InnoDB parameters
+=================
+
+- **innodb_buffer_pool_size** - the default value is 35% of the available ram
+
+Usage:
+.. code-block:: yaml
+
+    galera:
+        master:
+          innodb_buffer_pool_size: 1024M
+        slave:
+          innodb_buffer_pool_size: 1024M
 
 
 Usage
@@ -117,15 +132,15 @@ Galera monitoring command, performed from extra server
 
 .. code-block:: bash
 
-    Enter current password for root (enter for none): 
+    Enter current password for root (enter for none):
     OK, successfully used password, moving on...
 
     Setting the root password ensures that nobody can log into the MySQL
     root user without the proper authorisation.
 
     Set root password? [Y/n] y
-    New password: 
-    Re-enter new password: 
+    New password:
+    Re-enter new password:
     Password updated successfully!
     Reloading privilege tables..
      ... Success!
@@ -164,7 +179,7 @@ Galera monitoring command, performed from extra server
     Cleaning up...
 
 5. service mysql stop
-6. uncomment all wsrep* lines except first server, where leave only in my.cnf wsrep_cluster_address='gcomm://'; 
+6. uncomment all wsrep* lines except first server, where leave only in my.cnf wsrep_cluster_address='gcomm://';
 7. start first node
 8. Start third node which is connected to first one
 9. Start second node which is connected to third one
