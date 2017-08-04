@@ -4,7 +4,6 @@
 
 {%- for database_name, database in server.get('database', {}).iteritems() %}
 
-{%- if not grains.get('noservices', False) %}
 mysql_database_{{ database_name }}:
   mysql_database.present:
   - name: {{ database_name }}
@@ -12,10 +11,11 @@ mysql_database_{{ database_name }}:
   #- connection_user: {{ connection.user }}
   #- connection_pass: {{ connection.password }}
   #- connection_charset: {{ connection.charset }}
-{%- endif %}
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
 
 {%- for user in database.users %}
-{%- if not grains.get('noservices', False) %}
 mysql_user_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   mysql_user.present:
   - host: '{{ user.host }}'
@@ -28,6 +28,9 @@ mysql_user_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   #- connection_user: {{ connection.user }}
   #- connection_pass: {{ connection.password }}
   #- connection_charset: {{ connection.charset }}
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
 
 mysql_grants_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   mysql_grants.present:
@@ -41,7 +44,9 @@ mysql_grants_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   - require:
     - mysql_user: mysql_user_{{ user.name }}_{{ database_name }}_{{ user.host }}
     - mysql_database: mysql_database_{{ database_name }}
-{%- endif %}
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
 {%- endfor %}
 
 {%- if database.initial_data is defined %}
@@ -122,7 +127,8 @@ mysql_user_{{ user.name }}_{{ host }}_grants_db_{{ db.database }}_{{ loop.index0
     #- connection_charset: {{ connection.charset }}
     - require:
       - mysql_user_{{ user.name }}_{{ host }}
-      - mysql_database_{{ db.database }}
+      # the following line is not mandatory as database might not be managed by salt formula
+      #- mysql_database_{{ db.database }}
     {%- if grains.get('noservices') %}
     - onlyif: /bin/false
     {%- endif %}

@@ -57,17 +57,19 @@
 }, grain='oscodename', merge=pillar.galera.get('slave', {}))) %}
 
 {% set clustercheck = salt['grains.filter_by']({
-  'default': {
-     'enabled': False,
-     'user': clustercheck,
-     'password': clustercheck,
-     'port': '9200'
-    },
   'Debian': {
     'config': '/etc/mysql/my.cnf',
+    'enabled': False,
+    'user': clustercheck,
+    'password': clustercheck,
+    'port': '9200'
     },
   'RedHat': {
     'config': '/etc/my.cnf',
+    'enabled': False,
+    'user': clustercheck,
+    'password': clustercheck,
+    'port': '9200'
     },
 }, merge=pillar.galera.get('clustercheck', {})) %}
 

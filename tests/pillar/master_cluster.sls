@@ -25,6 +25,9 @@
       port: 9200
   mysql:
     server:
+      database:
+        mydb:
+          encoding: 'utf8'
       users:
       - name: haproxy
         host: localhost
