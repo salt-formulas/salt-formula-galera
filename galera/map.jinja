@@ -1,5 +1,9 @@
 
 {%- set master = salt['grains.filter_by']({
+  'default': {
+    'max_connections': 20000,
+    'innodb_buffer_pool_size': '3138M',
+  },
   'Debian': {
     'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
     'service': 'mysql',
@@ -17,9 +21,13 @@
     'socket': '/var/run/mariadb/mysqld.sock',
     'config': '/etc/my.cnf',
   },
-}, merge=pillar.galera.get('master', {})) %}
+}, merge=pillar.galera.get('master', {}), base='default') %}
 
 {%- set slave = salt['grains.filter_by']({
+  'default': {
+    'max_connections': 20000,
+    'innodb_buffer_pool_size': '3138M',
+  },
   'Debian': {
     'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
     'service': 'mysql',
@@ -54,4 +62,4 @@
     'socket': '/var/run/mysqld/mysqld.sock',
     'config': '/etc/mysql/my.cnf',
     },
-}, grain='oscodename', merge=pillar.galera.get('slave', {}))) %}
+}, grain='oscodename', merge=pillar.galera.get('slave', {})), base='default') %}
