@@ -1,6 +1,7 @@
 
 {%- if pillar.galera is defined %}
 include:
+- galera.ssl
 {%- if pillar.galera.master is defined %}
 - galera.master
 {%- endif %}

@@ -56,6 +56,27 @@ Galera cluster slave node
           user: root
           password: pass
 
+
+Enable TLS support:
+
+.. code-block:: yaml
+
+    galera:
+       slave or master:
+         ssl:
+          enabled: True
+
+          # path
+          cert_file: /etc/mysql/ssl/cert.pem
+          key_file: /etc/mysql/ssl/key.pem
+          ca_file: /etc/mysql/ssl/ca.pem
+
+          # content (not required if files already exists)
+          key: << body of key >>
+          cert: << body of cert >>
+          cacert_chain: << body of ca certs chain >>
+
+
 Configurable soft parameters
 ============================
 
@@ -68,7 +89,7 @@ Usage:
 
     _param:
       galera_innodb_buffer_pool_size: 1024M
-      galera_max_connections: 200 
+      galera_max_connections: 200
 
 Usage
 =====
