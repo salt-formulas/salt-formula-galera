@@ -15,7 +15,7 @@ mysql_database_{{ database_name }}:
   - onlyif: /bin/false
   {%- endif %}
 
-{%- for user in database.users %}
+{%- for user in database.get('users', {}) %}
 mysql_user_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   mysql_user.present:
   - host: '{{ user.host }}'
