@@ -15,7 +15,7 @@ syslog
 datadir=/var/lib/mysql
 bind-address={{ service.bind.address }}
 port=3306
-max_connections={{ service.get('max_connections', 20000) }}
+max_connections={{ service.max_connections }}
 default-storage-engine=innodb
 binlog_format=ROW
 collation-server=utf8_general_ci
@@ -36,7 +36,7 @@ query_cache_type=0
 
 innodb_file_format=Barracuda
 innodb_file_per_table=1
-innodb_buffer_pool_size=3138M
+innodb_buffer_pool_size={{ service.innodb_buffer_pool_size }}
 innodb_log_file_size=627M
 innodb_read_io_threads=8
 innodb_write_io_threads=8

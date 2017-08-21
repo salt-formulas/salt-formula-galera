@@ -56,20 +56,19 @@ Galera cluster slave node
           user: root
           password: pass
 
-InnoDB parameters
-=================
+Configurable soft parameters
+============================
 
-- **innodb_buffer_pool_size** - the default value is 35% of the available ram
+- **galera_innodb_buffer_pool_size** - the default value is 3138M
+- **galera_max_connections** - the default value is 20000
 
 Usage:
 
 .. code-block:: yaml
 
-    galera:
-        master:
-          innodb_buffer_pool_size: 1024M
-        slave:
-          innodb_buffer_pool_size: 1024M
+    _param:
+      galera_innodb_buffer_pool_size: 1024M
+      galera_max_connections: 200 
 
 Usage
 =====
