@@ -1,8 +1,8 @@
-{%- if pillar.galera.master is defined %}
+{%- if pillar.galera.get('master',{}).get('enabled', False) %}
 {%- from "galera/map.jinja" import master with context %}
 {%- set service = master %}
 {%- endif %}
-{%- if pillar.galera.slave is defined %}
+{%- if pillar.galera.get('slave',{}).get('enabled', False) %}
 {%- from "galera/map.jinja" import slave with context %}
 {%- set service = slave %}
 {%- endif %}

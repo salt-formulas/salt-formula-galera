@@ -1,4 +1,4 @@
-{%- if pillar.galera.master is defined %}
+{%- if pillar.galera.get('master',{}).get('enabled', False) %}
 {%- from "galera/map.jinja" import master with context %}
 {%- set service = master %}
 {%- endif %}

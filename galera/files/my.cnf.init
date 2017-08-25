@@ -1,11 +1,11 @@
 # All files in this package is subject to the GPL v2 license
 # More information is in the COPYING file in the top directory of this package.
 # Copyright (C) 2011 severalnines.com
-{%- if pillar.galera.master is defined %}
+{%- if pillar.galera.get('master',{}).get('enabled', False) %}
 {%- from "galera/map.jinja" import master with context %}
 {%- set service = master %}
 {%- endif %}
-{%- if pillar.galera.slave is defined %}
+{%- if pillar.galera.get('slave',{}).get('enabled', False) %}
 {%- from "galera/map.jinja" import slave with context %}
 {%- set service = slave %}
 {%- endif %}
