@@ -23,6 +23,8 @@
       available_when_donor: 1
       available_when_readonly: 1
       port: 9200
+      max_connections: 20000
+      innodb_buffer_pool_size: 3138M
   mysql:
     server:
       users:
