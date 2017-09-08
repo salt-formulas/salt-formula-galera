@@ -7,7 +7,7 @@ retries=0
 
 while [ $counter -gt 0 ]
 do
-  mysql -u root -e"quit"
+  mysql -u root -e"quit" || mysql -u {{ service.admin.user }} -p{{ service.admin.password }} -e"quit"
   if [[ $? -eq 0 ]]; then
     echo "Sucessfully connected to the MySQL service ($retries retries)."
     exit 0
