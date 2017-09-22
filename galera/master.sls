@@ -168,23 +168,12 @@ mysql_bootstrap_update_maint_password:
   - require:
     - cmd: galera_bootstrap_set_root_password
 
-galera_bootstrap_stop_service_pre:
-  cmd.run:
-  - name: mysqladmin -h localhost -u root -p{{ master.admin.password }} shutdown
-  {%- if not grains.get('noservices', False) %}
-  - ignore_retcode: true
-  - require:
-    - cmd: mysql_bootstrap_update_maint_password
-  {%- else %}
-  - onlyif: /bin/false
-  {%- endif %}
-
 galera_bootstrap_stop_service:
   service.dead:
   - name: {{ master.service }}
   {%- if not grains.get('noservices', False) %}
   - require:
-    - cmd: galera_bootstrap_stop_service_pre
+    - cmd: mysql_bootstrap_update_maint_password
   {%- else %}
   - onlyif: /bin/false
   {%- endif %}
