@@ -56,7 +56,6 @@ Galera cluster slave node
           user: root
           password: pass
 
-
 Enable TLS support:
 
 .. code-block:: yaml
@@ -77,19 +76,56 @@ Enable TLS support:
           cacert_chain: << body of ca certs chain >>
 
 
+Additional mysql users:
+
+.. code-block:: yaml
+
+    mysql:
+      server:
+        users:
+          - name: clustercheck
+            password: clustercheck
+            database: '*.*'
+            grants: PROCESS
+          - name: inspector
+            host: 127.0.0.1
+            password: password
+            databases:
+              mydb:
+                - database: mydb
+                - table: mytable
+                - grant_option: True
+                - grants:
+                  - all privileges
+
+Additional check params:
+========================
+
+.. code-block:: yaml
+
+    galera:
+      clustercheck:
+        - enabled: True
+        - user: clustercheck
+        - password: clustercheck
+        - available_when_donor: 0
+        - available_when_readonly: 1
+        - port 9200
+
 Configurable soft parameters
 ============================
+
 
 - **galera_innodb_buffer_pool_size** - the default value is 3138M
 - **galera_max_connections** - the default value is 20000
 
 Usage:
-
 .. code-block:: yaml
 
     _param:
       galera_innodb_buffer_pool_size: 1024M
       galera_max_connections: 200
+
 
 Usage
 =====
