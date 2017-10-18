@@ -23,3 +23,18 @@ dashboard:
               cluster_status:
                 rawQuery: true
                 query: SELECT last(value) FROM cluster_status WHERE cluster_name = 'mysql' AND environment_label = '$environment' AND $timeFilter GROUP BY time($interval) fill(null)
+  main_prometheus:
+    datasource: prometheus
+    row:
+      ost-middleware:
+        title: Middleware
+        panel:
+          nova:
+            title: MySQL
+            links:
+            - dashboard: MySQL
+              title: MySQL
+              type: dashboard
+            target:
+              cluster_status:
+                expr: avg(mysql_up) by (name)
