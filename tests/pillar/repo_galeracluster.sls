@@ -7,7 +7,7 @@ linux:
         key_id: BC19DDBA
         key_server: hkp://p80.pool.sks-keyservers.net:80
       mysql-wsrep:
-        source: 'deb http://releases.galeracluster.com/mysql-wsrep-5.6/ubuntu {{ grains.get('oscodename') }} main'
+        source: 'deb http://releases.galeracluster.com/mysql-wsrep-5.7/ubuntu {{ grains.get('oscodename') }} main'
         key_id: BC19DDBA
         key_server: hkp://p80.pool.sks-keyservers.net:80
       mitaka-staging_PPA:
