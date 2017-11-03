@@ -5,7 +5,7 @@
     'innodb_buffer_pool_size': '3138M',
   },
   'Debian': {
-    'pkgs': ['mysql-wsrep-5.7', 'galera-3', 'rsync', 'python-mysqldb', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
+    'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
     'service': 'mysql',
     'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
     'log_file': '/var/log/mysql.log',
@@ -29,7 +29,7 @@
     'innodb_buffer_pool_size': '3138M',
   },
   'Debian': {
-    'pkgs': ['mysql-wsrep-5.7', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
+    'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
     'service': 'mysql',
     'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
     'log_file': '/var/log/mysql.log',
@@ -47,7 +47,7 @@
     },
   }, merge=salt['grains.filter_by']({
   'trusty': {
-    'pkgs': ['mysql-wsrep-5.7', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
+    'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
     'service': 'mysql',
     'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
     'log_file': '/var/log/mysql.log',
@@ -55,7 +55,7 @@
     'config': '/etc/mysql/my.cnf',
     },
   'xenial': {
-    'pkgs': ['mysql-wsrep-5.7', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient-dev', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
+    'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient-dev', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
     'service': 'mysql',
     'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
     'log_file': '/var/log/mysql.log',
