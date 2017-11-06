@@ -30,8 +30,16 @@ provisioner:
     top.sls:
       base:
         "*":
-          - galera
           - galeracluster_debian_repo
+          - galera
+          - mysqlver
+    mysqlver.sls:
+      linux:
+        system:
+          repo:
+            # override url/path encoded versions
+            mysql-wsrep:
+              source: 'deb http://releases.galeracluster.com/mysql-wsrep-<%= ENV['MYSQL_VER'] || '5.6' %>/ubuntu <%= ENV['PLATFORM'] || 'xenial' %> main'
   pillars-from-files:
     galeracluster_debian_repo.sls: tests/pillar/repo_galeracluster.sls
 

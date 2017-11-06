@@ -1,68 +1,126 @@
+{% set mysql_version  = pillar.mysql.get('server', {}).get('version', '5.6') %}
+{% set galera_version = pillar.galera.get('master', {}).get('version', '3')  %}
 
-{%- set master = salt['grains.filter_by']({
-  'default': {
-    'max_connections': 20000,
-    'innodb_buffer_pool_size': '3138M',
-  },
-  'Debian': {
-    'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
-    'service': 'mysql',
-    'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
-    'log_file': '/var/log/mysql.log',
-    'socket': '/var/run/mysqld/mysqld.sock',
-    'config': '/etc/mysql/my.cnf',
-  },
-  'RedHat': {
-    'pkgs': ['galera', 'mariadb-galera-server', 'mariadb', 'MySQL-python', 'rsync', 'percona-xtrabackup', 'psmisc', 'socat'],
-    'xtrabackup_repo': 'http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm',
-    'service': 'mariadb',
-    'wsrep_provider': '/usr/lib64/galera/libgalera_smm.so',
-    'log_file': '/var/log/mariadb/mariadb.log',
-    'socket': '/var/run/mariadb/mysqld.sock',
-    'config': '/etc/my.cnf',
-  },
-}, merge=pillar.galera.get('master', {}), base='default') %}
+{%- load_yaml as master %}
+  default:
+    max_connections: 20000
+    innodb_buffer_pool_size: '3138M'
+  Debian:
+    pkgs:
+    - mysql-wsrep-{{ mysql_version }}
+    - galera-{{ galera_version }}
+    - rsync
+    - python-mysqldb
+    - psmisc
+    - netcat
+    - percona-xtrabackup
+    - socat
+    - libdbd-mysql
+    - python-pymysql
+    service: mysql
+    wsrep_provider: /usr/lib/galera/libgalera_smm.so
+    log_file: /var/log/mysql.log
+    socket: /var/run/mysqld/mysqld.sock
+    config: /etc/mysql/my.cnf
+  RedHat:
+    pkgs:
+    - galera
+    - mariadb-galera-server
+    - mariadb
+    - MySQL-python
+    - rsync
+    - percona-xtrabackup
+    - psmisc
+    - socat
+    xtrabackup_repo: http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm
+    service: mariadb
+    wsrep_provider: /usr/lib64/galera/libgalera_smm.so
+    log_file: /var/log/mariadb/mariadb.log
+    socket: /var/run/mariadb/mysqld.sock
+    config: /etc/my.cnf
+{%- endload %}
+{%- set _pillar = pillar.galera.get('master', {}) %}
+{%- if  _pillar|length > 1 %}
+{%- set master = salt['grains.filter_by'](master, merge=_pillar, base='default') %}
+{%- else %}
+{%- set master = salt['grains.filter_by'](master, base='default') %}
+{%- endif %}
 
-{%- set slave = salt['grains.filter_by']({
-  'default': {
-    'max_connections': 20000,
-    'innodb_buffer_pool_size': '3138M',
-  },
-  'Debian': {
-    'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
-    'service': 'mysql',
-    'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
-    'log_file': '/var/log/mysql.log',
-    'socket': '/var/run/mysqld/mysqld.sock',
-    'config': '/etc/mysql/my.cnf',
-  },
-  'RedHat': {
-    'pkgs': ['galera', 'mariadb-galera-server', 'mariadb', 'MySQL-python', 'rsync', 'percona-xtrabackup', 'psmisc', 'socat'],
-    'xtrabackup_repo': 'http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm',
-    'service': 'mariadb',
-    'wsrep_provider': '/usr/lib64/galera/libgalera_smm.so',
-    'log_file': '/var/log/mariadb/mariadb.log',
-    'socket': '/var/run/mariadb/mysqld.sock',
-    'config': '/etc/my.cnf',
-    },
-  }, merge=salt['grains.filter_by']({
-  'trusty': {
-    'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient18', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
-    'service': 'mysql',
-    'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
-    'log_file': '/var/log/mysql.log',
-    'socket': '/var/run/mysqld/mysqld.sock',
-    'config': '/etc/mysql/my.cnf',
-    },
-  'xenial': {
-    'pkgs': ['mysql-wsrep-5.6', 'galera-3', 'rsync', 'python-mysqldb', 'libmysqlclient-dev', 'psmisc', 'netcat', 'percona-xtrabackup', 'socat', 'libdbd-mysql', 'python-pymysql'],
-    'service': 'mysql',
-    'wsrep_provider': '/usr/lib/galera/libgalera_smm.so',
-    'log_file': '/var/log/mysql.log',
-    'socket': '/var/run/mysqld/mysqld.sock',
-    'config': '/etc/mysql/my.cnf',
-    },
-}, grain='oscodename', merge=pillar.galera.get('slave', {})), base='default') %}
+
+{%- load_yaml as slave %}
+  default:
+    max_connections: 20000
+    innodb_buffer_pool_size: '3138M'
+  Debian:
+    pkgs:
+    - mysql-wsrep-{{ mysql_version }}
+    - galera-{{ galera_version }}
+    - rsync
+    - python-mysqldb
+    - libmysqlclient18
+    - psmisc
+    - netcat
+    - percona-xtrabackup
+    - socat
+    - libdbd-mysql
+    - python-pymysql
+    service: mysql
+    wsrep_provider: /usr/lib/galera/libgalera_smm.so
+    log_file: /var/log/mysql.log
+    socket: /var/run/mysqld/mysqld.sock
+    config: /etc/mysql/my.cnf
+  RedHat:
+    pkgs:
+    - galera
+    - mariadb-galera-server
+    - mariadb
+    - MySQL-python
+    - rsync
+    - percona-xtrabackup
+    - psmisc
+    - socat
+    xtrabackup_repo: http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm
+    service: mariadb
+    wsrep_provider: /usr/lib64/galera/libgalera_smm.so
+    log_file: /var/log/mariadb/mariadb.log
+    socket: /var/run/mariadb/mysqld.sock
+    config: /etc/my.cnf
+{%- endload %}
+{%- load_yaml as slave_oscodename %}
+  trusty:
+    pkgs:
+    - mysql-wsrep-{{ mysql_version }}
+    - galera-{{ galera_version }}
+    - rsync
+    - python-mysqldb
+    - libmysqlclient18
+    - psmisc
+    - netcat
+    - percona-xtrabackup
+    - socat
+    - libdbd-mysql
+    - python-pymysql
+  xenial:
+    pkgs:
+    - mysql-wsrep-{{ mysql_version }}
+    - galera-{{ galera_version }}
+    - rsync
+    - python-mysqldb
+    - libmysqlclient-dev
+    - psmisc
+    - netcat
+    - percona-xtrabackup
+    - socat
+    - libdbd-mysql
+    - python-pymysql
+{%- endload %}
+{%- set _pillar = pillar.galera.get('slave', {}) %}
+{%- if  _pillar|length > 1 %}
+{%- set _oscodename = salt['grains.filter_by'](slave_oscodename, grain='oscodename', merge=_pillar) %}
+{%- else %}
+{%- set _oscodename = salt['grains.filter_by'](slave_oscodename, grain='oscodename') %}
+{%- endif %}
+{%- set slave = salt['grains.filter_by'](slave, merge=_oscodename, base='default') %}
 
 {% set clustercheck = salt['grains.filter_by']({
   'Debian': {
