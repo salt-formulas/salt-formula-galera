@@ -17,10 +17,14 @@ install:
   - bundle install
 
 env:
-    - PLATFORM=trevorj/salty-whales:trusty SUITE=master_cluster
-    - PLATFORM=trevorj/salty-whales:xenial SUITE=master_cluster
-    - PLATFORM=trevorj/salty-whales:trusty SUITE=slave_cluster
-    - PLATFORM=trevorj/salty-whales:xenial SUITE=slave_cluster
+    - PLATFORM=trevorj/salty-whales:trusty SUITE=master_cluster MYSQL_VER=5.6 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:xenial SUITE=master_cluster MYSQL_VER=5.6 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:trusty SUITE=slave_cluster  MYSQL_VER=5.6 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:xenial SUITE=slave_cluster  MYSQL_VER=5.6 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:trusty SUITE=master_cluster MYSQL_VER=5.7 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:xenial SUITE=master_cluster MYSQL_VER=5.7 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:trusty SUITE=slave_cluster  MYSQL_VER=5.7 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:xenial SUITE=slave_cluster  MYSQL_VER=5.7 GALERA_VER=3
 
 before_script:
   - set -o pipefail

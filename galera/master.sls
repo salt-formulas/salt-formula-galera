@@ -36,6 +36,7 @@ galera_log_dir:
     - pkg: galera_packages
 
 {%- if grains.os_family == 'Debian' %}
+
 galera_run_dir:
   file.directory:
   - name: /var/run/mysqld

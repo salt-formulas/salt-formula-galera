@@ -3,7 +3,7 @@ linux:
     enabled: true
     repo:
       galeracluster:
-        source: 'deb http://releases.galeracluster.com/galera-3/ubuntu {{ grains.get('oscodename') }} main'
+        source: 'deb http://releases.galeracluster.com/galera-{{ pillar.galera.version.galera }}/ubuntu {{ grains.get('oscodename') }} main'
         key_id: BC19DDBA
         key_server: hkp://p80.pool.sks-keyservers.net:80
         pin:
@@ -11,7 +11,7 @@ linux:
           priority: 1001
           package: '*'
       mysql-wsrep:
-        source: 'deb http://releases.galeracluster.com/mysql-wsrep-5.6/ubuntu {{ grains.get('oscodename') }} main'
+        source: 'deb http://releases.galeracluster.com/mysql-wsrep-{{ pillar.galera.version.mysql }}/ubuntu {{ grains.get('oscodename') }} main'
         key_id: BC19DDBA
         key_server: hkp://p80.pool.sks-keyservers.net:80
         pin:

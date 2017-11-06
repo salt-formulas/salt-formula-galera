@@ -13,6 +13,9 @@ Galera cluster master node
 .. code-block:: yaml
 
     galera:
+      version:
+        mysql: 5.6
+        galera: 3
       master:
         enabled: true
         name: openstack
