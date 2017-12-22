@@ -1,6 +1,11 @@
 {%- from "galera/map.jinja" import slave with context %}
 {%- if slave.get('enabled', False) %}
 
+{%- if slave.get('ssl', {}).get('enabled', False) %}
+include:
+  - galera._ssl
+{%- endif %}
+
 {%- if grains.os_family == 'RedHat' %}
 xtrabackup_repo:
   pkg.installed:

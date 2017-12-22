@@ -1,7 +1,9 @@
 {%- from "galera/map.jinja" import master, slave with context %}
-
-{%- set service = master if pillar.galera.master is defined else slave %}
-{%- set role = 'master' if pillar.galera.master is defined else 'slave' %}
+{%- if master.get('enabled', False) %}
+  {%- set service, role = master, 'master' %}
+{%-  elif slave.get('enabled', False) %}
+  {%- set service, role = slave, 'slave' %}
+{%- endif %}
 
 {%- if service.get('ssl', {}).get('enabled', False) %}
 {%- if service.ssl.cacert_chain is defined %}
@@ -13,6 +15,7 @@ mysql_cacertificate:
     - makedirs: true
     - require_in:
       - service: galera_service
+      - file: galera_config
 {%- else %}
 mysql_cacertificate_exists:
   file.exists:
@@ -26,6 +29,7 @@ mysql_cacertificate:
     - file: mysql_cacertificate_exists
   - require_in:
     - service: galera_service
+    - file: galera_config
 {%- endif %}
 
 {%- if service.ssl.cert is defined %}
@@ -37,6 +41,7 @@ mysql_certificate:
     - makedirs: true
     - require_in:
       - service: galera_service
+      - file: galera_config
 {%- else %}
 mysql_certificate_exists:
   file.exists:
@@ -50,6 +55,7 @@ mysql_certificate:
       - file: mysql_certificate_exists
     - require_in:
       - service: galera_service
+      - file: galera_config
 {%- endif %}
 
 {%- if service.ssl.key is defined %}
@@ -61,8 +67,11 @@ mysql_server_key:
     - group: mysql
     - mode: 0440
     - makedirs: true
+    - require:
+      - pkg: galera_packages
     - require_in:
       - service: galera_service
+      - file: galera_config
 {%- else %}
 mysql_server_key_exists:
   file.exists:
@@ -76,8 +85,10 @@ mysql_server_key:
     - create: False
     - require:
       - file: mysql_server_key_exists
+      - pkg: galera_packages
     - require_in:
        - service: galera_service
+       - file: galera_config
 {%- endif %}
 
 {%- endif %}
