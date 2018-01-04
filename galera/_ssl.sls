@@ -6,6 +6,15 @@
 {%- endif %}
 
 {%- if service.get('ssl', {}).get('enabled', False) %}
+
+galera_ssl_dir:
+  file.directory:
+  - name: /etc/mysql/ssl
+  - makedirs: true
+  - mode: 755
+  - require:
+    - pkg: galera_packages
+
 {%- if service.ssl.cacert_chain is defined %}
 mysql_cacertificate:
   file.managed:
@@ -27,6 +36,7 @@ mysql_cacertificate:
   - create: False
   - require:
     - file: mysql_cacertificate_exists
+    - file: galera_ssl_dir
   - require_in:
     - service: galera_service
     - file: galera_config
@@ -53,6 +63,7 @@ mysql_certificate:
     - create: False
     - require:
       - file: mysql_certificate_exists
+      - file: galera_ssl_dir
     - require_in:
       - service: galera_service
       - file: galera_config
@@ -69,6 +80,7 @@ mysql_server_key:
     - makedirs: true
     - require:
       - pkg: galera_packages
+      - file: galera_ssl_dir
     - require_in:
       - service: galera_service
       - file: galera_config
@@ -86,6 +98,7 @@ mysql_server_key:
     - require:
       - file: mysql_server_key_exists
       - pkg: galera_packages
+      - file: galera_ssl_dir
     - require_in:
        - service: galera_service
        - file: galera_config

@@ -32,9 +32,9 @@ galera_packages:
   - refresh: true
   - force_yes: True
 
-galera_log_dir:
+galera_dirs:
   file.directory:
-  - name: /var/log/mysql
+  - names: ['/var/log/mysql', '/etc/mysql']
   - makedirs: true
   - mode: 755
   - require:
