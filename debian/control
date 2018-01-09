@@ -11,6 +11,6 @@ Vcs-Git: https://github.com/tcpcloud/salt-formula-galera.git
 
 Package: salt-formula-galera
 Architecture: all
-Depends: ${misc:Depends}, salt-master, reclass, salt-formula-mysql
+Depends: ${misc:Depends}, salt-formula-mysql
 Description: galera salt formula
  Install and configure galera system.
