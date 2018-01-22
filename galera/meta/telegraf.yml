@@ -1,19 +1,16 @@
-{%- if pillar.galera is defined  %}
-{%- if pillar.galera.master is defined %}
-{%- from "galera/map.jinja" import master with context %}
-{%- set server = master %}
-{%- elif pillar.galera.slave is defined %}
-{%- from "galera/map.jinja" import slave with context %}
-{%- set server = slave %}
-{%- endif %}
+{%- from "galera/map.jinja" import master, slave with context %}
+{%- if master.get('enabled', False) %}
+  {%- set service = master %}
+{%-  elif slave.get('enabled', False) %}
+  {%- set service = slave %}
 {%- endif %}
 
-{%- if server is defined %}
+{%- if service is defined %}
 agent:
   input:
     mysql:
-      address: {{ server.socket }}
-      username: {{ server.admin.user }}
-      password: {{ server.admin.password }}
-      tagexclude: [server]
+      address: {{ service.socket }}
+      username: {{ service.admin.user }}
+      password: {{ service.admin.password }}
+      tagexclude: [service]
 {%- endif %}
