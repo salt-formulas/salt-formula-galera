@@ -130,7 +130,7 @@ galera_bootstrap_script:
   - source: salt://galera/files/bootstrap.sh
   - template: jinja
 
-{%- if salt['cmd.run']('test -e /var/lib/mysql/.galera_bootstrap; echo $?') != '0'  %}
+{%- if salt['cmd.shell']('test -e /var/lib/mysql/.galera_bootstrap; echo $?') != '0'  %}
 
 # Enforce config before package installation
 galera_pre_config:
