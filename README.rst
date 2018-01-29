@@ -101,6 +101,24 @@ Additional mysql users:
                 - grants:
                   - all privileges
 
+Additional mysql SSL grants:
+
+.. code-block:: yaml
+
+    mysql:
+      server:
+        users:
+          - name: clustercheck
+            password: clustercheck
+            database: '*.*'
+            grants: PROCESS
+            ssl_option:
+              - SSL: True
+              - X509: True
+              - SUBJECT: <subject>
+              - ISSUER: <issuer>
+              - CIPHER: <cipher>
+
 Additional check params:
 ========================
 

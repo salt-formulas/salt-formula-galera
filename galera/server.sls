@@ -38,6 +38,7 @@ mysql_grants_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   - database: '{{ database_name }}.*'
   - user: '{{ user.name }}'
   - host: '{{ user.host }}'
+  - ssl_option: {{ user.get('ssl_option', False) }}
   #- connection_user: {{ connection.user }}
   #- connection_pass: {{ connection.password }}
   #- connection_charset: {{ connection.charset }}
@@ -58,7 +59,7 @@ mysql_grants_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   - defaults:
     database_name: {{ database_name }}
     database: {{ database }}
-  - require: 
+  - require:
     - file: mysql_dirs
     - mysql_database: mysql_database_{{ database_name }}
 
@@ -92,7 +93,7 @@ mysql_user_{{ user.name }}_{{ host }}:
   {%- if grains.get('noservices') %}
   - onlyif: /bin/false
   {%- endif %}
-  
+
 {%- if 'grants' in user %}
 mysql_user_{{ user.name }}_{{ host }}_grants:
   mysql_grants.present:
@@ -102,6 +103,7 @@ mysql_user_{{ user.name }}_{{ host }}_grants:
     - grant_option: {{ user['grant_option'] | default(False) }}
     - user: {{ user.name }}
     - host: '{{ host }}'
+    - ssl_option: {{ user.get('ssl_option', False) }}
     #- connection_user: {{ connection.user }}
     #- connection_pass: {{ connection.password }}
     #- connection_charset: {{ connection.charset }}
@@ -122,6 +124,7 @@ mysql_user_{{ user.name }}_{{ host }}_grants_db_{{ db.database }}_{{ loop.index0
     - grant_option: {{ db['grant_option'] | default(False) }}
     - user: {{ user.name }}
     - host: '{{ host }}'
+    - ssl_option: {{ db.get('ssl_option', False) }}
     #- connection_user: {{ connection.user }}
     #- connection_pass: {{ connection.password }}
     #- connection_charset: {{ connection.charset }}
