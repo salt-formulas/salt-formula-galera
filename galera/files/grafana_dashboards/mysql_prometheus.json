@@ -72,7 +72,7 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "mysql_wsrep_cluster_size{host=\"$host\"}",
+              "expr": "min(mysql_wsrep_cluster_size)",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "",
