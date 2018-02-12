@@ -2,7 +2,7 @@
 
 service {{ service.service }} start
 
-counter=${1:-120}
+counter=${1:-60}
 retries=0
 
 while [ $counter -gt 0 ]
@@ -13,7 +13,7 @@ do
   fi
   counter=$(( counter - 1 ))
   retries=$(( retries + 1 ))
-  sleep ${2:-4}
+  sleep ${2:-10}
 done
 
 echo "Failed to connect to the MySQL service after $retries retries."
