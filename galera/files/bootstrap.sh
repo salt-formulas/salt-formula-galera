@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 service {{ service.service }} start
 
-counter=${1:-60}
+counter=${1:-120}
 retries=0
 
 while [ $counter -gt 0 ]
