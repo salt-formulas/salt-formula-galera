@@ -1,5 +1,10 @@
 {%- from "galera/map.jinja" import master with context %}
-{%- if master.enabled %}
+{%- if master.get('enabled', False) %}
+
+{%- if master.get('ssl', {}).get('enabled', False) %}
+include:
+  - galera._ssl
+{%- endif %}
 
 {%- if grains.os_family == 'RedHat' %}
 xtrabackup_repo:
@@ -27,15 +32,16 @@ galera_packages:
   - refresh: true
   - force_yes: True
 
-galera_log_dir:
+galera_dirs:
   file.directory:
-  - name: /var/log/mysql
+  - names: ['/var/log/mysql', '/etc/mysql']
   - makedirs: true
   - mode: 755
   - require:
     - pkg: galera_packages
 
 {%- if grains.os_family == 'Debian' %}
+
 galera_run_dir:
   file.directory:
   - name: /var/run/mysqld
@@ -78,7 +84,7 @@ galera_override_limit_no_file:
   file.managed:
   - name: /etc/systemd/system/mysql.service.d/override.conf
   - contents: |
-      [service]
+      [Service]
       LimitNOFILE=1024000
   - require:
     - pkg: galera_packages
@@ -105,7 +111,7 @@ galera_conf_debian:
   - require:
     - pkg: galera_packages
 
-{%- endif %} 
+{%- endif %}
 
 galera_init_script:
   file.managed:
@@ -115,6 +121,7 @@ galera_init_script:
   - defaults:
       service: {{ master|yaml }}
   - template: jinja
+  - timeout: 1800
 
 galera_bootstrap_script:
   file.managed:
@@ -125,7 +132,7 @@ galera_bootstrap_script:
       service: {{ master|yaml }}
   - template: jinja
 
-{%- if salt['cmd.run']('test -e /var/lib/mysql/.galera_bootstrap; echo $?') != '0'  %}
+{%- if salt['cmd.shell']('test -e /var/lib/mysql/.galera_bootstrap; echo $?') != '0'  %}
 
 # Enforce config before package installation
 galera_pre_config:
@@ -138,24 +145,32 @@ galera_pre_config:
   - require_in:
     - pkg: galera_packages
 
-{%- if not grains.get('noservices', False) %}
-
 galera_init_start_service:
   cmd.run:
   - name: /usr/local/sbin/galera_init.sh
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
   - require:
     - file: galera_run_dir
     - file: galera_init_script
+  - timeout: 1800
 
 galera_bootstrap_set_root_password:
   cmd.run:
   - name: mysqladmin password "{{ master.admin.password }}"
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
   - require:
     - cmd: galera_init_start_service
 
 mysql_bootstrap_update_maint_password:
   cmd.run:
   - name: mysql -u root -p{{ master.admin.password }} -e "GRANT ALL PRIVILEGES ON *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY '{{ master.maintenance_password }}';"
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
   - require:
     - cmd: galera_bootstrap_set_root_password
 
@@ -165,9 +180,9 @@ galera_bootstrap_stop_service:
   {%- if not grains.get('noservices', False) %}
   - require:
     - cmd: mysql_bootstrap_update_maint_password
+  {%- else %}
+  - onlyif: /bin/false
   {%- endif %}
-
-{%- endif %}
 
 galera_bootstrap_init_config:
   file.managed:
@@ -175,29 +190,24 @@ galera_bootstrap_init_config:
   - source: salt://galera/files/my.cnf.init
   - mode: 644
   - template: jinja
-  {%- if not grains.get('noservices', False) %}
-  - require: 
+  - require:
     - service: galera_bootstrap_stop_service
-  {%- endif %}
-
-{%- if not grains.get('noservices', False) %}
 
 galera_bootstrap_start_service_final:
   cmd.run:
   - name: /usr/local/sbin/galera_bootstrap.sh
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
   - require:
     - file: galera_bootstrap_init_config
     - file: galera_bootstrap_script
 
-{%- endif %}
-
 galera_bootstrap_finish_flag:
   file.touch:
   - name: /var/lib/mysql/.galera_bootstrap
-  {%- if not grains.get('noservices', False) %}
   - require:
     - cmd: galera_bootstrap_start_service_final
-  {%- endif %}
   - watch_in:
     - file: galera_config
 
@@ -209,18 +219,16 @@ galera_config:
   - source: salt://galera/files/my.cnf
   - mode: 644
   - template: jinja
-  {%- if not grains.get('noservices', False) %}
-  - require_in: 
+  - require_in:
     - service: galera_service
-  {%- endif %}
-
-{%- if not grains.get('noservices', False) %}
 
 galera_service:
   service.running:
   - name: {{ master.service }}
   - enable: true
   - reload: true
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
 
-{%- endif %}
 {%- endif %}

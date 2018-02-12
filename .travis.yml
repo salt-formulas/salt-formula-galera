@@ -17,15 +17,22 @@ install:
   - bundle install
 
 env:
-    - PLATFORM=trevorj/salty-whales:trusty
-    - PLATFORM=trevorj/salty-whales:xenial
+    - PLATFORM=trevorj/salty-whales:trusty SUITE=master-cluster MYSQL_VER=5.6 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:xenial SUITE=master-cluster MYSQL_VER=5.6 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:trusty SUITE=slave-cluster  MYSQL_VER=5.6 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:xenial SUITE=slave-cluster  MYSQL_VER=5.6 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:trusty SUITE=master-cluster MYSQL_VER=5.7 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:xenial SUITE=master-cluster MYSQL_VER=5.7 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:trusty SUITE=slave-cluster  MYSQL_VER=5.7 GALERA_VER=3
+    - PLATFORM=trevorj/salty-whales:xenial SUITE=slave-cluster  MYSQL_VER=5.7 GALERA_VER=3
 
 before_script:
   - set -o pipefail
   - make test | tail
 
 script:
-  - test ! -e .kitchen.yml || bundle exec kitchen test -t tests/integration
+  - test ! -e .kitchen.yml || bundle exec kitchen converge ${SUITE} || true
+  - test ! -e .kitchen.yml || bundle exec kitchen verify ${SUITE} -t tests/integration
 
 notifications:
   webhooks:

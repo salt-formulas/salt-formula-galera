@@ -1,8 +1,14 @@
 dashboard:
-  galera:
+  galera_prometheus:
+    datasource: prometheus
+    format: json
+    template: galera/files/grafana_dashboards/mysql_prometheus.json
+  galera_influxdb:
+    datasource: influxdb
     format: json
     template: galera/files/grafana_dashboards/mysql_influxdb.json
   main:
+    datasource: influxdb
     row:
       ost-middleware:
         title: Middleware
@@ -17,3 +23,18 @@ dashboard:
               cluster_status:
                 rawQuery: true
                 query: SELECT last(value) FROM cluster_status WHERE cluster_name = 'mysql' AND environment_label = '$environment' AND $timeFilter GROUP BY time($interval) fill(null)
+  main_prometheus:
+    datasource: prometheus
+    row:
+      ost-middleware:
+        title: Middleware
+        panel:
+          nova:
+            title: MySQL
+            links:
+            - dashboard: MySQL
+              title: MySQL
+              type: dashboard
+            target:
+              cluster_status:
+                expr: avg(mysql_up) by (name)

@@ -1,0 +1,16 @@
+{%- from "galera/map.jinja" import master, slave with context %}
+{%- if master.get('enabled', False) %}
+  {%- set service = master %}
+{%-  elif slave.get('enabled', False) %}
+  {%- set service = slave %}
+{%- endif %}
+
+{%- if service is defined %}
+agent:
+  input:
+    mysql:
+      address: {{ service.socket }}
+      username: {{ service.admin.user }}
+      password: {{ service.admin.password }}
+      tagexclude: [service]
+{%- endif %}

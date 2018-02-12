@@ -13,6 +13,9 @@ Galera cluster master node
 .. code-block:: yaml
 
     galera:
+      version:
+        mysql: 5.6
+        galera: 3
       master:
         enabled: true
         name: openstack
@@ -56,13 +59,102 @@ Galera cluster slave node
           user: root
           password: pass
 
+Enable TLS support:
+
+.. code-block:: yaml
+
+    galera:
+       slave or master:
+         ssl:
+          enabled: True
+
+          # path
+          cert_file: /etc/mysql/ssl/cert.pem
+          key_file: /etc/mysql/ssl/key.pem
+          ca_file: /etc/mysql/ssl/ca.pem
+
+          # content (not required if files already exists)
+          key: << body of key >>
+          cert: << body of cert >>
+          cacert_chain: << body of ca certs chain >>
+
+
+Additional mysql users:
+
+.. code-block:: yaml
+
+    mysql:
+      server:
+        users:
+          - name: clustercheck
+            password: clustercheck
+            database: '*.*'
+            grants: PROCESS
+          - name: inspector
+            host: 127.0.0.1
+            password: password
+            databases:
+              mydb:
+                - database: mydb
+                - table: mytable
+                - grant_option: True
+                - grants:
+                  - all privileges
+
+Additional mysql SSL grants:
+
+.. code-block:: yaml
+
+    mysql:
+      server:
+        users:
+          - name: clustercheck
+            password: clustercheck
+            database: '*.*'
+            grants: PROCESS
+            ssl_option:
+              - SSL: True
+              - X509: True
+              - SUBJECT: <subject>
+              - ISSUER: <issuer>
+              - CIPHER: <cipher>
+
+Additional check params:
+========================
+
+.. code-block:: yaml
+
+    galera:
+      clustercheck:
+        - enabled: True
+        - user: clustercheck
+        - password: clustercheck
+        - available_when_donor: 0
+        - available_when_readonly: 1
+        - port 9200
+
+Configurable soft parameters
+============================
+
+
+- **galera_innodb_buffer_pool_size** - the default value is 3138M
+- **galera_max_connections** - the default value is 20000
+
+Usage:
+.. code-block:: yaml
+
+    _param:
+      galera_innodb_buffer_pool_size: 1024M
+      galera_max_connections: 200
+
+
 Usage
 =====
 
 MySQL Galera check sripts
 
 .. code-block:: bash
-    
+
     mysql> SHOW STATUS LIKE 'wsrep%';
 
     mysql> SHOW STATUS LIKE 'wsrep_cluster_size' ;"
@@ -80,15 +172,15 @@ Galera monitoring command, performed from extra server
 
 .. code-block:: bash
 
-    Enter current password for root (enter for none): 
+    Enter current password for root (enter for none):
     OK, successfully used password, moving on...
 
     Setting the root password ensures that nobody can log into the MySQL
     root user without the proper authorisation.
 
     Set root password? [Y/n] y
-    New password: 
-    Re-enter new password: 
+    New password:
+    Re-enter new password:
     Password updated successfully!
     Reloading privilege tables..
      ... Success!
@@ -127,7 +219,7 @@ Galera monitoring command, performed from extra server
     Cleaning up...
 
 5. service mysql stop
-6. uncomment all wsrep* lines except first server, where leave only in my.cnf wsrep_cluster_address='gcomm://'; 
+6. uncomment all wsrep* lines except first server, where leave only in my.cnf wsrep_cluster_address='gcomm://';
 7. start first node
 8. Start third node which is connected to first one
 9. Start second node which is connected to third one

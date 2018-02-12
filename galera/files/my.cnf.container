@@ -1,4 +1,4 @@
-{%- if pillar.galera.master is defined %}
+{%- if pillar.galera.get('master',{}).get('enabled', False) %}
 {%- from "galera/map.jinja" import master with context %}
 {%- set service = master %}
 {%- endif %}
@@ -12,7 +12,7 @@ socket=/var/lib/mysql/mysql.sock
 pid_file=/var/lib/mysql/mysql.pid
 port=3306
 log_warnings=2
-innodb_buffer_pool_size=3138M
+innodb_buffer_pool_size={{ service.innodb_buffer_pool_size }}
 innodb_flush_log_at_trx_commit=2
 innodb_file_per_table=1
 innodb_data_file_path = ibdata1:100M:autoextend
@@ -45,7 +45,7 @@ character-set-server=utf8
 skip_name_resolve
 memlock=0
 sysdate_is_now=1
-max_connections={{ service.get('max_connections', 20000) }}
+max_connections={{ service.max_connections }}
 thread_cache_size=512
 query_cache_type = 0
 query_cache_size = 0

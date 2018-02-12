@@ -8,6 +8,8 @@ parameters:
     galera_server_bind_address: ${_param:cluster_local_address}
     galera_server_bind_port: 3306
     galera_server_admin_user: root
+    galera_max_connections: 20000
+    galera_innodb_buffer_pool_size: 3138M
   galera:
     master:
       enabled: true
@@ -26,6 +28,8 @@ parameters:
         port: 4567
       - host: ${_param:cluster_node03_address}
         port: 4567
+      max_connections: ${_param:galera_max_connections}
+      innodb_buffer_pool_size: ${_param:galera_innodb_buffer_pool_size}
   mysql:
     server:
       users:

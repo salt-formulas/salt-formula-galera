@@ -1,5 +1,5 @@
 {%- if pillar.get('mysql', {}).server is defined  %}
-
+{%- from "mysql/map.jinja" import mysql_connection_args as connection with context %}
 {%- set server = pillar.mysql.server %}
 
 {%- for database_name, database in server.get('database', {}).iteritems() %}
@@ -7,14 +7,30 @@
 mysql_database_{{ database_name }}:
   mysql_database.present:
   - name: {{ database_name }}
+  - character_set: {{ database.get('encoding', 'utf8') }}
+  #- connection_user: {{ connection.user }}
+  #- connection_pass: {{ connection.password }}
+  #- connection_charset: {{ connection.charset }}
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
 
-{%- for user in database.users %}
-
+{%- for user in database.get('users', {}) %}
 mysql_user_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   mysql_user.present:
   - host: '{{ user.host }}'
   - name: '{{ user.name }}'
+  {%- if user.password is defined %}
   - password: {{ user.password }}
+  {%- else %}
+  - allow_passwordless: true
+  {%- endif %}
+  #- connection_user: {{ connection.user }}
+  #- connection_pass: {{ connection.password }}
+  #- connection_charset: {{ connection.charset }}
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
 
 mysql_grants_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   mysql_grants.present:
@@ -22,14 +38,19 @@ mysql_grants_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   - database: '{{ database_name }}.*'
   - user: '{{ user.name }}'
   - host: '{{ user.host }}'
+  - ssl_option: {{ user.get('ssl_option', False) }}
+  #- connection_user: {{ connection.user }}
+  #- connection_pass: {{ connection.password }}
+  #- connection_charset: {{ connection.charset }}
   - require:
     - mysql_user: mysql_user_{{ user.name }}_{{ database_name }}_{{ user.host }}
     - mysql_database: mysql_database_{{ database_name }}
-
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
 {%- endfor %}
 
 {%- if database.initial_data is defined %}
-
 /root/mysql/scripts/restore_{{ database_name }}.sh:
   file.managed:
   - source: salt://mysql/conf/restore.sh
@@ -38,7 +59,7 @@ mysql_grants_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   - defaults:
     database_name: {{ database_name }}
     database: {{ database }}
-  - require: 
+  - require:
     - file: mysql_dirs
     - mysql_database: mysql_database_{{ database_name }}
 
@@ -49,24 +70,75 @@ restore_mysql_database_{{ database_name }}:
   - cwd: /root
   - require:
     - file: /root/mysql/scripts/restore_{{ database_name }}.sh
-
 {%- endif %}
 
 {%- endfor %}
 
-{%- if not grains.get('noservices', False) %}
 {%- for user in server.get('users', []) %}
-
-mysql_user_{{ user.name }}_{{ user.host }}:
+{%- for host in user.get('hosts', user.get('host', 'localhost'))|sequence %}
+mysql_user_{{ user.name }}_{{ host }}:
   mysql_user.present:
-  - host: '{{ user.host }}'
+  - host: '{{ host }}'
   - name: '{{ user.name }}'
-  {%- if user.password is defined %}
-  - password: {{ user.password }}
+  {%- if user['password_hash'] is defined %}
+  - password_hash: '{{ user.password_hash }}'
+  {%- elif user['password'] is defined and user['password'] != None %}
+  - password: '{{ user.password }}'
   {%- else %}
   - allow_passwordless: True
   {%- endif %}
+  #- connection_user: {{ connection.user }}
+  #- connection_pass: {{ connection.password }}
+  #- connection_charset: {{ connection.charset }}
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
 
+{%- if 'grants' in user %}
+mysql_user_{{ user.name }}_{{ host }}_grants:
+  mysql_grants.present:
+    - name: {{ user.name }}
+    - grant: {{ user['grants']|sequence|join(",") }}
+    - database: '{{ user.get('database','*.*') }}'
+    - grant_option: {{ user['grant_option'] | default(False) }}
+    - user: {{ user.name }}
+    - host: '{{ host }}'
+    - ssl_option: {{ user.get('ssl_option', False) }}
+    #- connection_user: {{ connection.user }}
+    #- connection_pass: {{ connection.password }}
+    #- connection_charset: {{ connection.charset }}
+    - require:
+      - mysql_user_{{ user.name }}_{{ host }}
+    {%- if grains.get('noservices') %}
+    - onlyif: /bin/false
+    {%- endif %}
+{%- endif %}
+
+{%- if 'databases' in user %}
+{%- for db in user['databases'] %}
+mysql_user_{{ user.name }}_{{ host }}_grants_db_{{ db.database }}_{{ loop.index0 }}:
+  mysql_grants.present:
+    - name: {{ user.name ~ '_' ~ db['database']  ~ '_' ~ db['table'] | default('all') }}
+    - grant: {{ db['grants']|sequence|join(",") }}
+    - database: '{{ db['database'] }}.{{ db['table'] | default('*') }}'
+    - grant_option: {{ db['grant_option'] | default(False) }}
+    - user: {{ user.name }}
+    - host: '{{ host }}'
+    - ssl_option: {{ db.get('ssl_option', False) }}
+    #- connection_user: {{ connection.user }}
+    #- connection_pass: {{ connection.password }}
+    #- connection_charset: {{ connection.charset }}
+    - require:
+      - mysql_user_{{ user.name }}_{{ host }}
+      # the following line is not mandatory as database might not be managed by salt formula
+      #- mysql_database_{{ db.database }}
+    {%- if grains.get('noservices') %}
+    - onlyif: /bin/false
+    {%- endif %}
 {%- endfor %}
 {%- endif %}
+
+{%- endfor %}
+{%- endfor %}
+
 {%- endif %}
