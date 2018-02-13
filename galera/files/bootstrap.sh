@@ -4,6 +4,7 @@ service {{ service.service }} start
 
 counter=${1:-60}
 retries=0
+sst_in_progress='/var/lib/mysql/sst_in_progress'
 
 while [ $counter -gt 0 ]
 do
@@ -13,6 +14,14 @@ do
   fi
   counter=$(( counter - 1 ))
   retries=$(( retries + 1 ))
+  {%- if slave %}
+  if [ $retries -gt 20 ]; then
+    if [ ! -e $sst_in_progress ]; then
+        echo "No sst is in progress."
+        break
+    fi
+  fi
+  {%- endif %}
   sleep ${2:-10}
 done
 

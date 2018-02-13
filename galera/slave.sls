@@ -127,6 +127,7 @@ galera_bootstrap_script:
   - mode: 755
   - defaults:
       service: {{ slave|yaml }}
+      slave: True
   - source: salt://galera/files/bootstrap.sh
   - template: jinja
 

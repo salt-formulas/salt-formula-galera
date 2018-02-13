@@ -130,6 +130,7 @@ galera_bootstrap_script:
   - source: salt://galera/files/bootstrap.sh
   - defaults:
       service: {{ master|yaml }}
+      slave: False
   - template: jinja
 
 {%- if salt['cmd.shell']('test -e /var/lib/mysql/.galera_bootstrap; echo $?') != '0'  %}
