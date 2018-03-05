@@ -34,12 +34,18 @@ max_allowed_packet=256M
 query_cache_size=0
 query_cache_type=0
 
+{%- if service.get('error_log_enabled', False) %}
+log_error = /var/log/mysql/error.log
+{%- else %}
+#log_error = /var/log/mysql/error.log
+{%- endif %}
+
 innodb_file_format=Barracuda
 innodb_file_per_table=1
 innodb_buffer_pool_size={{ service.innodb_buffer_pool_size }}
 innodb_log_file_size=627M
-innodb_read_io_threads=8
-innodb_write_io_threads=8
+innodb_read_io_threads={{ service.get('innodb_read_io_threads', 8) }}
+innodb_write_io_threads={{ service.get('innodb_write_io_threads', 8) }}
 innodb_io_capacity=500
 innodb_flush_log_at_trx_commit=2
 innodb_flush_method=O_DIRECT
@@ -51,7 +57,7 @@ wsrep_cluster_address="gcomm://"
 wsrep_provider={{ service.wsrep_provider }}
 wsrep_cluster_name="openstack"
 
-wsrep_slave_threads=8
+wsrep_slave_threads={{ service.get('wsrep_slave_threads', 8) }}
 wsrep_sst_method=xtrabackup-v2
 wsrep_sst_auth={{ service.admin.user }}:{{ service.admin.password }}
 wsrep_node_address={{ service.bind.address }}
@@ -66,7 +72,7 @@ ssl-key={{ service.ssl.key_file }}
 {% endif %}
 
 [xtrabackup]
-parallel=4
+parallel={{ service.get('xtrabackup_parallel', 4) }}
 
 [sst]
 streamfmt=xbstream

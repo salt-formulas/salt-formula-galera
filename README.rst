@@ -139,6 +139,11 @@ Configurable soft parameters
 
 - **galera_innodb_buffer_pool_size** - the default value is 3138M
 - **galera_max_connections** - the default value is 20000
+- **galera_innodb_read_io_threads** - the default value is 8
+- **galera_innodb_write_io_threads** - the default value is 8
+- **galera_wsrep_slave_threads** - the default value is 8
+- **galera_xtrabackup_parallel** - the default value is 4
+- **galera_error_log_enabled** - the default value is 'false'
 
 Usage:
 .. code-block:: yaml
@@ -146,6 +151,11 @@ Usage:
     _param:
       galera_innodb_buffer_pool_size: 1024M
       galera_max_connections: 200
+      galera_innodb_read_io_threads: 16
+      galera_innodb_write_io_threads: 16
+      galera_wsrep_slave_threads: 8
+      galera_xtrabackup_parallel: 2
+      galera_error_log_enabled: true
 
 
 Usage

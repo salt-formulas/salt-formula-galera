@@ -10,6 +10,11 @@ parameters:
     galera_server_admin_user: root
     galera_max_connections: 20000
     galera_innodb_buffer_pool_size: 3138M
+    galera_innodb_read_io_threads: 8
+    galera_innodb_write_io_threads: 8
+    galera_wsrep_slave_threads: 8
+    galera_xtrabackup_parallel: 4
+    galera_error_log_enabled: false
   galera:
     master:
       enabled: true
@@ -30,6 +35,11 @@ parameters:
         port: 4567
       max_connections: ${_param:galera_max_connections}
       innodb_buffer_pool_size: ${_param:galera_innodb_buffer_pool_size}
+      innodb_read_io_threads: ${_param:galera_innodb_read_io_threads}
+      innodb_write_io_threads: ${_param:galera_innodb_write_io_threads}
+      wsrep_slave_threads: ${_param:galera_wsrep_slave_threads}
+      xtrabackup_parallel: ${_param:galera_xtrabackup_parallel}
+      error_log_enabled: ${_param:galera_error_log_enabled}
   mysql:
     server:
       users:
