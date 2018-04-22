@@ -2,5 +2,7 @@ name: "galera"
 version: "1.0"
 source: "https://github.com/salt-formulas/salt-formula-galera"
 dependencies:
+- name: linux
+  source: "https://github.com/salt-formulas/salt-formula-linux"
 - name: mysql
   source: "https://github.com/salt-formulas/salt-formula-mysql"

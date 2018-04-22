@@ -1,0 +1,12 @@
+parameters:
+  _param:
+    mysql_ssl_key_file: /etc/mysql/ssl/key.pem
+    mysql_ssl_cert_file: /etc/mysql/ssl/cert.pem
+    mysql_ssl_ca_file: /etc/mysql/ssl/ca.pem
+  galera:
+    slave:
+      ssl:
+        enabled: True
+        key_file: ${_param:mysql_ssl_key_file}
+        cert_file: ${_param:mysql_ssl_cert_file}
+        ca_file: ${_param:mysql_ssl_ca_file}
