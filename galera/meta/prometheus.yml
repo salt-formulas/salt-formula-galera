@@ -1,31 +1,48 @@
-{% raw %}
 server:
   alert:
     GaleraServiceDown:
       if: >-
         mysql_up != 1
+  {%- raw %}
       labels:
-        severity: warning
+        severity: minor
         service: mysql
       annotations:
-        summary: 'Galera service down'
-        description: 'Galera service is down on node {{ $labels.host }}'
+        summary: "Galera service is down"
+        description: "The Galera service on the {{ $labels.host }} node is down."
+  {%- endraw %}
+    GaleraServiceOutage:
+      if: >-
+        count(label_replace(mysql_up, "cluster", "$1", "host", "([^0-9]+).+")) by (cluster) == count(label_replace(mysql_up == 0, "cluster", "$1", "host", "([^0-9]+).+")) by (cluster)
+  {%- raw %}
+      labels:
+        severity: critical
+        service: mysql
+      annotations:
+        summary: "Galera service outage"
+        description: "All Galera services within the {{ $labels.cluster }} cluster are down."
+  {% endraw %}
     GaleraNodeNotReady:
-      if: 'mysql_wsrep_ready != 1'
+      if: >-
+        mysql_wsrep_ready != 1
+  {%- raw %}
       for: 1m
       labels:
-        severity: warning
+        severity: major
         service: mysql
       annotations:
-        summary: 'Galera on {{ $labels.host }} not ready'
-        description: 'The Galera service on {{ $labels.host }} is not ready to serve queries.'
+        summary: "Galera service is not ready"
+        description: "The Galera service on the {{ $labels.host }} node is not ready to serve queries for at least 1 minute."
+  {%- endraw %}
     GaleraNodeNotConnected:
-      if: 'mysql_wsrep_connected != 1'
+      if: >-
+        mysql_wsrep_connected != 1
+  {%- raw %}
       for: 1m
       labels:
-        severity: warning
+        severity: major
         service: mysql
       annotations:
-        summary: 'Galera on {{ $labels.host }} not connected'
-        description: 'The Galera service on {{ $labels.host }} is not connected to the cluster.'
-{% endraw %}
+        summary: "Galera service is not connected"
+        description: "The Galera service on the {{ $labels.host }} node is not connected to the cluster for at least 1 minute."
+  {%- endraw %}
