@@ -32,7 +32,7 @@ server:
         service: mysql
       annotations:
         summary: "Galera service is not ready"
-        description: "The Galera service on the {{ $labels.host }} node is not ready to serve queries for at least 1 minute."
+        description: "The Galera service on the {{ $labels.host }} node is not ready to serve queries for 1 minute."
   {%- endraw %}
     GaleraNodeNotConnected:
       if: >-
@@ -44,5 +44,5 @@ server:
         service: mysql
       annotations:
         summary: "Galera service is not connected"
-        description: "The Galera service on the {{ $labels.host }} node is not connected to the cluster for at least 1 minute."
+        description: "The Galera service on the {{ $labels.host }} node is not connected to the cluster for 1 minute."
   {%- endraw %}
