@@ -3,7 +3,7 @@
   "annotations": {
     "list": [
       {
-        "$$hashKey": "object:84",
+        "$$hashKey": "object:11238",
         "builtIn": 1,
         "datasource": "prometheus",
         "enable": true,
@@ -21,7 +21,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1529417287923,
+  "iteration": 1529573943307,
   "links": [],
   "panels": [
     {
@@ -46,7 +46,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "prometheus",
+      "datasource": null,
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -67,10 +67,12 @@
       "mappingType": 1,
       "mappingTypes": [
         {
+          "$$hashKey": "object:11615",
           "name": "value to text",
           "value": 1
         },
         {
+          "$$hashKey": "object:11616",
           "name": "range to text",
           "value": 2
         }
@@ -78,7 +80,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "postfix": "% Up",
+      "postfix": "% UP",
       "postfixFontSize": "50%",
       "prefix": "",
       "prefixFontSize": "50%",
@@ -98,6 +100,7 @@
       "tableColumn": "",
       "targets": [
         {
+          "$$hashKey": "object:11579",
           "expr": "100 * sum(mysql_up)/count(mysql_up)",
           "format": "time_series",
           "intervalFactor": 2,
@@ -112,26 +115,31 @@
       "valueFontSize": "80%",
       "valueMaps": [
         {
+          "$$hashKey": "object:11618",
           "op": "=",
           "text": "N/A",
           "value": "null"
         },
         {
+          "$$hashKey": "object:11619",
           "op": "=",
           "text": "OK",
           "value": "3"
         },
         {
+          "$$hashKey": "object:11620",
           "op": "=",
           "text": "WARNING",
           "value": "2"
         },
         {
+          "$$hashKey": "object:11621",
           "op": "=",
           "text": "FAIL",
           "value": "1"
         },
         {
+          "$$hashKey": "object:11622",
           "op": "=",
           "text": "FAIL",
           "value": "0"
@@ -148,7 +156,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "prometheus",
+      "datasource": null,
       "description": "Displays the number of nodes in the cluster.",
       "format": "none",
       "gauge": {
@@ -228,7 +236,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": null,
       "decimals": 0,
       "fill": 1,
       "gridPos": {
@@ -241,7 +249,7 @@
       "legend": {
         "alignAsTable": true,
         "avg": false,
-        "current": true,
+        "current": false,
         "hideEmpty": false,
         "hideZero": false,
         "max": false,
@@ -249,7 +257,7 @@
         "rightSide": true,
         "show": true,
         "total": false,
-        "values": true
+        "values": false
       },
       "lines": true,
       "linewidth": 1,
@@ -265,9 +273,10 @@
       "steppedLine": false,
       "targets": [
         {
+          "$$hashKey": "object:11352",
           "expr": "mysql_up{host=~\"$host\"}",
           "format": "time_series",
-          "intervalFactor": 1,
+          "intervalFactor": 2,
           "legendFormat": "{{host}}",
           "refId": "A"
         }
@@ -291,6 +300,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:11380",
           "decimals": 0,
           "format": "short",
           "label": null,
@@ -300,6 +310,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:11381",
           "decimals": null,
           "format": "short",
           "label": null,
@@ -336,7 +347,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "prometheus",
+      "datasource": null,
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -357,10 +368,12 @@
       "mappingType": 1,
       "mappingTypes": [
         {
+          "$$hashKey": "object:11665",
           "name": "value to text",
           "value": 1
         },
         {
+          "$$hashKey": "object:11666",
           "name": "range to text",
           "value": 2
         }
@@ -384,6 +397,7 @@
       "repeatDirection": "h",
       "scopedVars": {
         "host": {
+          "$$hashKey": "object:11638",
           "selected": false,
           "text": "dbs01",
           "value": "dbs01"
@@ -410,16 +424,19 @@
       "valueFontSize": "80%",
       "valueMaps": [
         {
+          "$$hashKey": "object:11668",
           "op": "=",
           "text": "N/A",
           "value": "null"
         },
         {
+          "$$hashKey": "object:11669",
           "op": "=",
-          "text": "Fail",
+          "text": "FAIL",
           "value": "0"
         },
         {
+          "$$hashKey": "object:11670",
           "op": "=",
           "text": "OK",
           "value": "1"
@@ -436,7 +453,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "prometheus",
+      "datasource": null,
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -457,10 +474,12 @@
       "mappingType": 1,
       "mappingTypes": [
         {
+          "$$hashKey": "object:11665",
           "name": "value to text",
           "value": 1
         },
         {
+          "$$hashKey": "object:11666",
           "name": "range to text",
           "value": 2
         }
@@ -482,10 +501,11 @@
       ],
       "repeat": null,
       "repeatDirection": "h",
-      "repeatIteration": 1529417287923,
+      "repeatIteration": 1529573943307,
       "repeatPanelId": 12,
       "scopedVars": {
         "host": {
+          "$$hashKey": "object:11639",
           "selected": false,
           "text": "dbs02",
           "value": "dbs02"
@@ -512,16 +532,19 @@
       "valueFontSize": "80%",
       "valueMaps": [
         {
+          "$$hashKey": "object:11668",
           "op": "=",
           "text": "N/A",
           "value": "null"
         },
         {
+          "$$hashKey": "object:11669",
           "op": "=",
-          "text": "Fail",
+          "text": "FAIL",
           "value": "0"
         },
         {
+          "$$hashKey": "object:11670",
           "op": "=",
           "text": "OK",
           "value": "1"
@@ -538,7 +561,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "prometheus",
+      "datasource": null,
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -559,10 +582,12 @@
       "mappingType": 1,
       "mappingTypes": [
         {
+          "$$hashKey": "object:11665",
           "name": "value to text",
           "value": 1
         },
         {
+          "$$hashKey": "object:11666",
           "name": "range to text",
           "value": 2
         }
@@ -584,10 +609,11 @@
       ],
       "repeat": null,
       "repeatDirection": "h",
-      "repeatIteration": 1529417287923,
+      "repeatIteration": 1529573943307,
       "repeatPanelId": 12,
       "scopedVars": {
         "host": {
+          "$$hashKey": "object:11640",
           "selected": false,
           "text": "dbs03",
           "value": "dbs03"
@@ -614,16 +640,19 @@
       "valueFontSize": "80%",
       "valueMaps": [
         {
+          "$$hashKey": "object:11668",
           "op": "=",
           "text": "N/A",
           "value": "null"
         },
         {
+          "$$hashKey": "object:11669",
           "op": "=",
-          "text": "Fail",
+          "text": "FAIL",
           "value": "0"
         },
         {
+          "$$hashKey": "object:11670",
           "op": "=",
           "text": "OK",
           "value": "1"
@@ -640,7 +669,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "prometheus",
+      "datasource": null,
       "format": "s",
       "gauge": {
         "maxValue": 100,
@@ -687,6 +716,7 @@
       "repeatDirection": "h",
       "scopedVars": {
         "host": {
+          "$$hashKey": "object:11638",
           "selected": false,
           "text": "dbs01",
           "value": "dbs01"
@@ -729,7 +759,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "prometheus",
+      "datasource": null,
       "format": "s",
       "gauge": {
         "maxValue": 100,
@@ -774,10 +804,11 @@
       ],
       "repeat": null,
       "repeatDirection": "h",
-      "repeatIteration": 1529417287923,
+      "repeatIteration": 1529573943307,
       "repeatPanelId": 42,
       "scopedVars": {
         "host": {
+          "$$hashKey": "object:11639",
           "selected": false,
           "text": "dbs02",
           "value": "dbs02"
@@ -820,7 +851,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "prometheus",
+      "datasource": null,
       "format": "s",
       "gauge": {
         "maxValue": 100,
@@ -865,10 +896,11 @@
       ],
       "repeat": null,
       "repeatDirection": "h",
-      "repeatIteration": 1529417287923,
+      "repeatIteration": 1529573943307,
       "repeatPanelId": 42,
       "scopedVars": {
         "host": {
+          "$$hashKey": "object:11640",
           "selected": false,
           "text": "dbs03",
           "value": "dbs03"
@@ -907,7 +939,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": null,
       "fill": 1,
       "gridPos": {
         "h": 5,
@@ -1006,7 +1038,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": null,
       "description": "Displays the average sizes of receive and send queues.",
       "fill": 1,
       "gridPos": {
@@ -1018,14 +1050,14 @@
       "id": 14,
       "legend": {
         "alignAsTable": true,
-        "avg": true,
+        "avg": false,
         "current": false,
         "max": false,
         "min": false,
         "rightSide": true,
         "show": true,
         "total": false,
-        "values": true
+        "values": false
       },
       "lines": true,
       "linewidth": 1,
@@ -1044,7 +1076,7 @@
           "expr": "mysql_wsrep_local_recv_queue_avg{host=~\"$host\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Receive @{{host}}",
+          "legendFormat": "receive @{{host}}",
           "refId": "A",
           "step": 10
         },
@@ -1052,7 +1084,7 @@
           "expr": "mysql_wsrep_local_send_queue_avg{host=~\"$host\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Send @{{host}}",
+          "legendFormat": "send @{{host}}",
           "refId": "B",
           "step": 10
         }
@@ -1102,7 +1134,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": null,
       "description": "Displays the rate of flow control events.",
       "fill": 1,
       "gridPos": {
@@ -1140,7 +1172,7 @@
           "expr": "rate(mysql_wsrep_flow_control_recv{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Receive @{{host}}",
+          "legendFormat": "receive @{{host}}",
           "metric": "",
           "refId": "A",
           "step": 10
@@ -1149,7 +1181,7 @@
           "expr": "rate(mysql_wsrep_flow_control_sent{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Send @{{host}}",
+          "legendFormat": "send @{{host}}",
           "refId": "B",
           "step": 10
         }
@@ -1199,7 +1231,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": null,
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1242,7 +1274,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "Rx @{{host}}",
+          "legendFormat": "rx @{{host}}",
           "metric": "",
           "refId": "A",
           "step": 10
@@ -1252,7 +1284,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "Tx @{{host}}",
+          "legendFormat": "tx @{{host}}",
           "metric": "",
           "refId": "B",
           "step": 10
@@ -1303,7 +1335,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": null,
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1340,7 +1372,7 @@
           "expr": "rate(mysql_table_locks_immediate{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Immediate @{{host}}",
+          "legendFormat": "immediate @{{host}}",
           "refId": "A",
           "step": 10
         },
@@ -1348,7 +1380,7 @@
           "expr": "rate(mysql_table_locks_waited{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Waited @{{host}}",
+          "legendFormat": "waited @{{host}}",
           "refId": "B",
           "step": 10
         }
@@ -1398,7 +1430,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": null,
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1435,7 +1467,7 @@
           "expr": "mysql_threads_cached{host=~\"$host\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Cached @{{host}}",
+          "legendFormat": "cached @{{host}}",
           "refId": "A",
           "step": 10
         },
@@ -1443,7 +1475,7 @@
           "expr": "mysql_threads_connected{host=~\"$host\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Connected @{{host}}",
+          "legendFormat": "connected @{{host}}",
           "refId": "B",
           "step": 10
         },
@@ -1451,7 +1483,7 @@
           "expr": "mysql_threads_running{host=~\"$host\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Running @{{host}}",
+          "legendFormat": "running @{{host}}",
           "refId": "D",
           "step": 10
         }
@@ -1501,7 +1533,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": null,
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1538,7 +1570,7 @@
           "expr": "rate(mysql_queries{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Queries @{{host}}",
+          "legendFormat": "queries @{{host}}",
           "refId": "A",
           "step": 10
         },
@@ -1546,7 +1578,7 @@
           "expr": "rate(mysql_questions{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Questions @{{host}}",
+          "legendFormat": "questions @{{host}}",
           "refId": "B",
           "step": 10
         }
@@ -1596,7 +1628,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": null,
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1633,7 +1665,7 @@
           "expr": "rate(mysql_commands_commit{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Commit @{{host}}",
+          "legendFormat": "commit @{{host}}",
           "refId": "A",
           "step": 10
         },
@@ -1641,7 +1673,7 @@
           "expr": "rate(mysql_commands_delete{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Delete @{{host}}",
+          "legendFormat": "delete @{{host}}",
           "refId": "B",
           "step": 10
         },
@@ -1649,7 +1681,7 @@
           "expr": "rate(mysql_commands_insert{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Insert @{{host}}",
+          "legendFormat": "insert @{{host}}",
           "refId": "C",
           "step": 10
         },
@@ -1657,7 +1689,7 @@
           "expr": "rate(mysql_commands_select{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Select @{{host}}",
+          "legendFormat": "select @{{host}}",
           "refId": "D",
           "step": 10
         },
@@ -1665,7 +1697,7 @@
           "expr": "rate(mysql_commands_rollback{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Rollback @{{host}}",
+          "legendFormat": "rollback @{{host}}",
           "refId": "E",
           "step": 10
         },
@@ -1673,7 +1705,7 @@
           "expr": "rate(mysql_commands_update{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Update @{{host}}",
+          "legendFormat": "update @{{host}}",
           "refId": "F",
           "step": 10
         }
@@ -1723,7 +1755,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": null,
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1760,7 +1792,7 @@
           "expr": "rate(mysql_handler_commit{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Commit @{{host}}",
+          "legendFormat": "commit @{{host}}",
           "refId": "A",
           "step": 10
         },
@@ -1768,7 +1800,7 @@
           "expr": "rate(mysql_handler_delete{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Delete @{{host}}",
+          "legendFormat": "delete @{{host}}",
           "refId": "B",
           "step": 10
         },
@@ -1776,7 +1808,7 @@
           "expr": "rate(mysql_handler_write{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Write @{{host}}",
+          "legendFormat": "write @{{host}}",
           "refId": "C",
           "step": 10
         },
@@ -1784,7 +1816,7 @@
           "expr": "rate(mysql_handler_rollback{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Rollback @{{host}}",
+          "legendFormat": "rollback @{{host}}",
           "refId": "E",
           "step": 10
         },
@@ -1792,7 +1824,7 @@
           "expr": "rate(mysql_handler_update{host=~\"$host\"}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Update @{{host}}",
+          "legendFormat": "update @{{host}}",
           "refId": "F",
           "step": 10
         }
@@ -1849,12 +1881,13 @@
       {
         "allValue": null,
         "current": {
+          "tags": [],
           "text": "All",
           "value": [
             "$__all"
           ]
         },
-        "datasource": "prometheus",
+        "datasource": null,
         "hide": 0,
         "includeAll": true,
         "label": null,
@@ -1952,6 +1985,6 @@
   "timezone": "browser",
   "title": "MySQL",
   "uid": "",
-  "version": 2
+  "version": 1
 }
 {% endraw %}
