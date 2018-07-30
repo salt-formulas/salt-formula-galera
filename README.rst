@@ -1,9 +1,12 @@
 
-======
-Galera
-======
+=====
+Usage
+=====
 
-Galera Cluster for MySQL is a true Multimaster Cluster based on synchronous replication. Galera Cluster is an easy-to-use, high-availability solution, which provides high system uptime, no data loss and scalability for future growth.
+Galera Cluster for MySQL is a true Multimaster Cluster based on synchronous
+replication. Galera Cluster is an easy-to-use, high-availability solution,
+which provides high system uptime, no data loss and scalability for future
+growth.
 
 Sample pillars
 ==============
@@ -136,16 +139,23 @@ Additional check params:
 Configurable soft parameters
 ============================
 
-
-- **galera_innodb_buffer_pool_size** - the default value is 3138M
-- **galera_max_connections** - the default value is 20000
-- **galera_innodb_read_io_threads** - the default value is 8
-- **galera_innodb_write_io_threads** - the default value is 8
-- **galera_wsrep_slave_threads** - the default value is 8
-- **galera_xtrabackup_parallel** - the default value is 4
-- **galera_error_log_enabled** - the default value is 'false'
+- ``galera_innodb_buffer_pool_size``
+   Default is ``3138M``
+- ``galera_max_connections``
+   Default is ``20000``
+- ``galera_innodb_read_io_threads``
+   Default is ``8``
+- ``galera_innodb_write_io_threads``
+   Default is ``8``
+- ``galera_wsrep_slave_threads``
+   Default is ``8``
+- ``galera_xtrabackup_parallel``
+   Default is 4
+- ``galera_error_log_enabled``
+   Default is ``false``
 
 Usage:
+
 .. code-block:: yaml
 
     _param:
@@ -156,7 +166,6 @@ Usage:
       galera_wsrep_slave_threads: 8
       galera_xtrabackup_parallel: 2
       galera_error_log_enabled: true
-
 
 Usage
 =====
@@ -175,12 +184,12 @@ Galera monitoring command, performed from extra server
 
     garbd -a gcomm://ipaddrofone:4567 -g my_wsrep_cluster -l /tmp/1.out -d
 
-1. salt-call state.sls mysql
-2. Comment everything starting wsrep* (wsrep_provider, wsrep_cluster, wsrep_sst)
-3. service mysql start
-4. run on each node mysql_secure_install and filling root password.
+#. salt-call state.sls mysql
+#. Comment everything starting wsrep* (wsrep_provider, wsrep_cluster, wsrep_sst)
+#. service mysql start
+#. run on each node mysql_secure_install and filling root password.
 
-.. code-block:: bash
+   .. code-block:: bash
 
     Enter current password for root (enter for none):
     OK, successfully used password, moving on...
@@ -228,16 +237,18 @@ Galera monitoring command, performed from extra server
 
     Cleaning up...
 
-5. service mysql stop
-6. uncomment all wsrep* lines except first server, where leave only in my.cnf wsrep_cluster_address='gcomm://';
-7. start first node
-8. Start third node which is connected to first one
-9. Start second node which is connected to third one
-10. After starting cluster, it must be change cluster address at first starting node without restart database and change config my.cnf.
+#. service mysql stop
+#. uncomment all wsrep* lines except first server, where leave only in
+   my.cnf wsrep_cluster_address='gcomm://';
+#. start first node
+#. Start third node which is connected to first one
+#. Start second node which is connected to third one
+#. After starting cluster, it must be change cluster address at first starting node
+   without restart database and change config my.cnf.
 
-.. code-block:: bash
+   .. code-block:: bash
 
-    mysql> SET GLOBAL wsrep_cluster_address='gcomm://10.0.0.2';
+      mysql> SET GLOBAL wsrep_cluster_address='gcomm://10.0.0.2';
 
 Read more
 =========
@@ -246,37 +257,31 @@ Read more
 * http://www.sebastien-han.fr/blog/2012/04/15/active-passive-failover-cluster-on-a-mysql-galera-cluster-with-haproxy-lsb-agent/
 * http://opentodo.net/2012/12/mysql-multi-master-replication-with-galera/
 * http://www.codership.com/wiki/doku.php
-* Best one: - http://www.sebastien-han.fr/blog/2012/04/01/mysql-multi-master-replication-with-galera/
+* http://www.sebastien-han.fr/blog/2012/04/01/mysql-multi-master-replication-with-galera/
 
-Documentation and Bugs
+Documentation and bugs
 ======================
 
-To learn how to install and update salt-formulas, consult the documentation
-available online at:
+* http://salt-formulas.readthedocs.io/
+   Learn how to install and update salt-formulas
 
-    http://salt-formulas.readthedocs.io/
+*  https://github.com/salt-formulas/salt-formula-galera/issues
+   In the unfortunate event that bugs are discovered, report the issue to the
+   appropriate issue tracker. Use the Github issue tracker for a specific salt
+   formula
 
-In the unfortunate event that bugs are discovered, they should be reported to
-the appropriate issue tracker. Use Github issue tracker for specific salt
-formula:
+* https://launchpad.net/salt-formulas
+   For feature requests, bug reports, or blueprints affecting the entire
+   ecosystem, use the Launchpad salt-formulas project
 
-    https://github.com/salt-formulas/salt-formula-galera/issues
+* https://launchpad.net/~salt-formulas-users
+   Join the salt-formulas-users team and subscribe to mailing list if required
 
-For feature requests, bug reports or blueprints affecting entire ecosystem,
-use Launchpad salt-formulas project:
+* https://github.com/salt-formulas/salt-formula-galera
+   Develop the salt-formulas projects in the master branch and then submit pull
+   requests against a specific formula
 
-    https://launchpad.net/salt-formulas
+* #salt-formulas @ irc.freenode.net
+   Use this IRC channel in case of any questions or feedback which is always
+   welcome
 
-You can also join salt-formulas-users team and subscribe to mailing list:
-
-    https://launchpad.net/~salt-formulas-users
-
-Developers wishing to work on the salt-formulas projects should always base
-their work on master branch and submit pull request against specific formula.
-
-    https://github.com/salt-formulas/salt-formula-galera
-
-Any questions or feedback is always welcome so feel free to join our IRC
-channel:
-
-    #salt-formulas @ irc.freenode.net
