@@ -132,6 +132,7 @@ galera_bootstrap_script:
   - template: jinja
 
 {%- if salt['cmd.shell']('test -e /var/lib/mysql/.galera_bootstrap; echo $?') != '0'  %}
+{%- if salt['cmd.shell']('test -e /etc/salt/.galera_bootstrap; echo $?') != '0'  %}
 
 # Enforce config before package installation
 galera_pre_config:
@@ -205,7 +206,7 @@ galera_bootstrap_start_service_final:
 
 galera_bootstrap_finish_flag:
   file.touch:
-  - name: /var/lib/mysql/.galera_bootstrap
+  - name: /etc/salt/.galera_bootstrap
   - require:
     - cmd: galera_bootstrap_start_service_final
   - watch_in:
@@ -231,5 +232,6 @@ galera_service:
   - onlyif: /bin/false
   {%- endif %}
 
+{%- endif %}
 {%- endif %}
 
