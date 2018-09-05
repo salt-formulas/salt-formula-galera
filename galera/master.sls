@@ -116,7 +116,7 @@ galera_conf_debian:
 galera_init_script:
   file.managed:
   - name: /usr/local/sbin/galera_init.sh
-  - mode: 755
+  - mode: 750
   - source: salt://galera/files/init_bootstrap.sh
   - defaults:
       service: {{ master|yaml }}
@@ -126,7 +126,7 @@ galera_init_script:
 galera_bootstrap_script:
   file.managed:
   - name: /usr/local/sbin/galera_bootstrap.sh
-  - mode: 755
+  - mode: 750
   - source: salt://galera/files/bootstrap.sh
   - defaults:
       service: {{ master|yaml }}
