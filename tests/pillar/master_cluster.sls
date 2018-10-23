@@ -159,6 +159,19 @@ galera:
       key_file: /etc/mysql/ssl/key.pem
       cert_file: /etc/mysql/ssl/cert.pem
       ca_file: /etc/mysql/ssl/ca.pem
+      ciphers:
+        DHE-RSA-AES128-SHA:
+          enabled: True
+        DHE-RSA-AES256-SHA:
+          name: DHE-RSA-AES256-SHA
+          enabled: True
+        EDH-RSA-DES-CBC3-SHA:
+          name: EDH-RSA-DES-CBC3-SHA
+          enabled: True
+        AES128-SHA:AES256-SHA:
+          enabled: True
+        DES-CBC3-SHA:
+          enabled: True
   clustercheck:
     enabled: True
     user: clustercheck

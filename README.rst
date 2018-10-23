@@ -70,7 +70,19 @@ Enable TLS support:
        slave or master:
          ssl:
           enabled: True
-
+          ciphers:
+            DHE-RSA-AES128-SHA:
+              enabled: True
+            DHE-RSA-AES256-SHA:
+              enabled: True
+            EDH-RSA-DES-CBC3-SHA:
+              name: EDH-RSA-DES-CBC3-SHA
+              enabled: True
+            AES128-SHA:AES256-SHA:
+              name: AES128-SHA:AES256-SHA
+              enabled: True
+            DES-CBC3-SHA:
+              enabled: True
           # path
           cert_file: /etc/mysql/ssl/cert.pem
           key_file: /etc/mysql/ssl/key.pem
