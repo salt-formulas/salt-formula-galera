@@ -1,0 +1,55 @@
+{%- if pillar.get('fluentd', {}).get('agent', {}).get('enabled', False) %}
+agent:
+  config:
+    label:
+      mysql:
+        input:
+          tail_mysql:
+            type: tail
+            tag: mysql.log
+            path: {{ service.get('error_log_path', '/var/log/mysql/error.log') }}
+            pos_file: {{ pillar.fluentd.agent.dir.positiondb }}/mysql.pos
+            parser:
+              type: multi_format
+              patterns:
+                # mysql format I: https://regex101.com/r/xmjZ8H/1
+                - type: regexp
+                  time_key: Timestamp
+                  time_format: '%F %H:%M:%S'
+                  keep_time_key: false
+                  format: '/^(?<Timestamp>.*) (?<Pid>\d+) \[(?<Severity>.*)\] (?<Payload>.*)$/'
+                # mysql format II: https://regex101.com/r/ucqhB3/1
+                - type: regexp
+                  time_key: Timestamp
+                  time_format: '%H:%M:%S'
+                  keep_time_key: false
+                  format: '/^(?<Pid>\d+) (?<Timestamp>.*) mysqld\_safe (?<Payload>.*)$/'
+        filter:
+          wsrep_severity:
+            type: record_transformer
+            tag: mysql.log
+            enable_ruby: true
+            remove_keys: priority
+            record:
+              - name: Severity
+                value: '${ {"Note"=>5,"Warning"=>4,"ERROR"=>3}.fetch(record["Severity"], 6) }'
+          mysql_record:
+            require:
+              - wsrep_severity
+            type: record_transformer
+            tag: mysql.log
+            enable_ruby: true
+            remove_keys: priority
+            record:
+              - name: service
+                value: mysql.service
+              - name: source
+                value: error_log
+              - name: severity_label
+                value: '${ {"TRACE"=>8,"DEBUG"=>7,"INFO"=>6,"NOTICE"=>5,"WARNING"=>4,"ERROR"=>3,"CRITICAL"=>2,"ALERT"=>1,"EMERGENCY"=>0}.key(record["Severity"].to_i) }'
+        match:
+          push_to_default:
+            tag: mysql.**
+            type: relabel
+            label: default_output
+{%- endif %}

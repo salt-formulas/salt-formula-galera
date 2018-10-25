@@ -164,7 +164,9 @@ Configurable soft parameters
 - ``galera_xtrabackup_parallel``
    Default is 4
 - ``galera_error_log_enabled``
-   Default is ``false``
+   Default is ``true``
+- ``galera_error_log_path``
+   Default is ``/var/log/mysql/error.log``
 
 Usage:
 
@@ -178,6 +180,7 @@ Usage:
       galera_wsrep_slave_threads: 8
       galera_xtrabackup_parallel: 2
       galera_error_log_enabled: true
+      galera_error_log_path: /var/log/mysql/error.log
 
 Usage
 =====
