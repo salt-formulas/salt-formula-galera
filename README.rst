@@ -41,6 +41,7 @@ Galera cluster master node
               password: 'password'
               host: 'localhost'
               rights: 'all privileges'
+              database: '*.*'
 
 Galera cluster slave node
 

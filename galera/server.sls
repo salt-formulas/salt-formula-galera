@@ -35,7 +35,7 @@ mysql_user_{{ user.name }}_{{ database_name }}_{{ user.host }}:
 mysql_grants_{{ user.name }}_{{ database_name }}_{{ user.host }}:
   mysql_grants.present:
   - grant: {{ user.rights }}
-  - database: '{{ database_name }}.*'
+  - database: {{ user.get('database', database_name + '.*') }}
   - user: '{{ user.name }}'
   - host: '{{ user.host }}'
   - ssl_option: {{ user.get('ssl_option', False) }}
