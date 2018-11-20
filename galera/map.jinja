@@ -1,5 +1,6 @@
 {% set mysql_version  = pillar.galera.get('version', {}).get('mysql', '5.6') %}
 {% set galera_version = pillar.galera.get('version', {}).get('galera', '3')  %}
+{% set engine = pillar.galera.get('engine', 'mysql') %}
 
 {%- load_yaml as master %}
   default:
@@ -7,17 +8,22 @@
     innodb_buffer_pool_size: '3138M'
   Debian:
     pkgs:
+{%- if engine == 'mysql' %}
     - mysql-wsrep-{{ mysql_version }}
+    - python-mysqldb
+    - libdbd-mysql
+    - percona-xtrabackup
+{%- else %}
+    - mariadb-server
+    - mariadb-client
+{%- endif %}
     - galera-{{ galera_version }}
     - rsync
-    - python-mysqldb
     - psmisc
     - netcat
-    - percona-xtrabackup
     - socat
-    - libdbd-mysql
     - python-pymysql
-    service: mysql
+    service: {{ engine }}
     wsrep_provider: /usr/lib/galera/libgalera_smm.so
     log_file: /var/log/mysql.log
     socket: /var/run/mysqld/mysqld.sock
@@ -53,18 +59,23 @@
     innodb_buffer_pool_size: '3138M'
   Debian:
     pkgs:
+{%- if engine == 'mysql' %}
     - mysql-wsrep-{{ mysql_version }}
+    - python-mysqldb
+    - libdbd-mysql
+    - libmysqlclient18
+    - percona-xtrabackup
+{%- else %}
+    - mariadb-server
+    - mariadb-client
+{%- endif %}
     - galera-{{ galera_version }}
     - rsync
-    - python-mysqldb
-    - libmysqlclient18
     - psmisc
     - netcat
-    - percona-xtrabackup
     - socat
-    - libdbd-mysql
     - python-pymysql
-    service: mysql
+    service: {{ engine }}
     wsrep_provider: /usr/lib/galera/libgalera_smm.so
     log_file: /var/log/mysql.log
     socket: /var/run/mysqld/mysqld.sock
