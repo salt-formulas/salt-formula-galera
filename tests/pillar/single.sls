@@ -1,4 +1,5 @@
 galera:
+  engine: mariadb
   master:
     enabled: true
     name: galeracluster

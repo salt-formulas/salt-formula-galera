@@ -137,6 +137,7 @@ linux:
           6xiZViPc4VayFnhDIC1w1oBqlhyIZ0AG/D7gqvfYiG6mHO32kPtHEN6Qzny8
           -----END RSA PRIVATE KEY-----
 galera:
+  engine: mariadb
   master:
     enabled: true
     name: galeracluster

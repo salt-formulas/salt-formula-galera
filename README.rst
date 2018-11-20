@@ -3,7 +3,7 @@
 Usage
 =====
 
-Galera Cluster for MySQL is a true Multimaster Cluster based on synchronous
+Galera Cluster for MySQL or Mariadb is a true Multimaster Cluster based on synchronous
 replication. Galera Cluster is an easy-to-use, high-availability solution,
 which provides high system uptime, no data loss and scalability for future
 growth.
@@ -19,6 +19,7 @@ Galera cluster master node
       version:
         mysql: 5.6
         galera: 3
+      engine: mysql or mariadb
       master:
         enabled: true
         name: openstack
@@ -186,7 +187,7 @@ Usage:
 Usage
 =====
 
-MySQL Galera check sripts
+MySQL/Mariadb Galera check sripts
 
 .. code-block:: bash
 
